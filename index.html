@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vinay — engineering student building practical machine learning and explainable AI systems.">
+  <title>Vinay Savita — AI/ML Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="siteStars" class="site-stars" aria-hidden="true"></canvas>
+
+  <div id="introOverlay" class="intro-overlay" aria-hidden="true">
+    <canvas id="introStars" class="intro-stars"></canvas>
+    <div class="intro-glow" id="introGlow"></div>
+    <div class="intro-logo" id="introLogo">
+      <span id="introMain"></span><span class="intro-text-accent" id="introAccent"></span><span class="intro-cursor" id="introCursor">|</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="header-left">
+        <a class="logo mono" href="#top">VINAY<span>.AI</span></a>
+        <img class="profile-avatar" src="image1.jpeg" alt="Vinay Savita">
+      </div>
+      <div class="header-right">
+        <nav aria-label="Primary navigation">
+          <a href="#top">Home</a>
+          <a href="#about">About</a>
+          <a href="#what-i-do">What I Do</a>
+          <a href="#projects">Projects</a>
+          <a href="#research">Research</a>
+          <a href="#skills">Skills</a>
+          <a href="#achievements">Achievements</a>
+          <a href="#resume">Resume</a>
+          <a href="#contact">Connect</a>
+        </nav>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark mode" type="button">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HOME -->
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow mono"><span class="status-dot"></span> AI/ML • ENGINEERING • INTELLIGENT SYSTEMS</p>
+        <h1>I turn data into intelligent systems that <em>solve real-world problems.</em></h1>
+        <p class="hero-sub">Engineering student focused on practical ML, explainable AI, and intelligent systems - from experimentation to working prototypes.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects">View projects <span>↘</span></a>
+          <a class="btn btn-ghost" href="#contact">Let's connect</a>
+        </div>
+      </div>
+
+      <div class="hero-readout" aria-label="Portfolio status">
+        <div class="readout-head mono"><span>SYSTEM_READOUT</span><span>v1.0</span></div>
+        <svg class="hero-signal" viewBox="0 0 520 170" role="img" aria-label="Abstract machine learning signal visualization">
+          <path class="grid-line" d="M0 30H520M0 85H520M0 140H520M80 0V170M180 0V170M280 0V170M380 0V170M480 0V170"/>
+          <path class="signal" d="M0 85 C35 85 38 85 52 85 S72 83 82 85 S91 130 103 85 S118 38 130 85 S153 86 175 85 S190 83 202 85 S211 112 220 85 S238 62 248 85 S265 87 285 85 S301 80 315 85 S324 102 334 85 S349 70 361 85 S380 85 400 85 S414 82 427 85 S438 128 449 85 S465 45 477 85 S493 85 520 85"/>
+          <circle class="signal-point" cx="449" cy="85" r="4"/>
+        </svg>
+        <div class="readout-data mono">
+          <span><b>MODE</b> RESEARCH + BUILD</span>
+          <span><b>FOCUS</b> ML / XAI / QML</span>
+          <span><b>STATUS</b> <i>ACTIVE</i></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+    <!-- ABOUT ME -->
+    <section id="about" class="section wrap">
+      <div class="section-head">
+        <p class="eyebrow mono">BACKGROUND</p>
+        <h2>About Me</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <img class="about-portrait" src="image1.jpeg" alt="Vinay Savita">
+          <p class="about-lead">I'm an Electronics &amp; Telecommunication Engineering student building practical AI/ML systems for real-world problems.</p>
+          <p class="about-copy">I’m an Electronics & Telecommunication Engineering student exploring AI/ML through explainable AI, quantum machine learning, signal-based classification, and AI agents. For the past three years, I’ve also served as an IEEE Editing Head, working at the intersection of technical communication, creativity, and collaboration. I enjoy taking ideas from research and experimentation and turning them into practical, intelligent systems for real-world use.
+.</p>
+        </div>
+        <aside class="spec-card">
+          <div class="spec-row mono"><span>PRIMARY</span><b>Machine Learning</b></div>
+          <div class="spec-row mono"><span>EXPLORING</span><b>Explainable AI · Quantum ML · AI Agents</b></div>
+          <div class="spec-row mono"><span>DEGREE</span><b>Electronic & Telecom Engineering</b></div>
+          <div class="spec-row mono"><span>INTEREST</span><b>Research → Experiment → Prototype</b></div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+
+
+    <!-- WHAT I DO -->
+<section id="what-i-do" class="section wrap">
+  <div class="section-head">
+    <p class="eyebrow mono">FOCUS AREAS</p>
+    <h2>What I Work On</h2>
+    <p class="section-intro">
+      Areas where I explore ideas, build systems, and turn research into practical applications.
+    </p>
+  </div>
+
+  <div class="cert-grid">
+
+    <div class="cert-card">
+      <span class="field-label mono">01</span>
+      <h3 class="cert-name">Explainable AI</h3>
+      <p class="cert-issuer">
+        Exploring interpretable ML approaches that make model decisions
+        easier to understand, analyze, and trust.
+      </p>
+    </div>
+
+    <div class="cert-card">
+      <span class="field-label mono">02</span>
+      <h3 class="cert-name">Quantum Machine Learning</h3>
+      <p class="cert-issuer">
+        Exploring quantum computing approaches to machine learning,
+        particularly for challenging classification and prediction problems.
+      </p>
+    </div>
+
+    <div class="cert-card">
+      <span class="field-label mono">03</span>
+      <h3 class="cert-name">AI Agents &amp; Automation</h3>
+      <p class="cert-issuer">
+        Prototyping AI agents that can reason through tasks, use tools,
+        and automate multi-step workflows.
+      </p>
+    </div>
+
+    <div class="cert-card">
+      <span class="field-label mono">04</span>
+      <h3 class="cert-name">Biomedical Signal Processing</h3>
+      <p class="cert-issuer">
+        Working with ECG and EEG signals to explore signal processing,
+        pattern recognition, and intelligent healthcare applications.
+      </p>
+    </div>
+
+    <div class="cert-card">
+      <span class="field-label mono">05</span>
+      <h3 class="cert-name">Machine Learning &amp; Classification</h3>
+      <p class="cert-issuer">
+        Building and evaluating ML models for classification problems,
+        with an emphasis on experimentation, performance, and reliability.
+      </p>
+    </div>
+
+    <div class="cert-card">
+      <span class="field-label mono">06</span>
+      <h3 class="cert-name">Research &amp; Prototyping</h3>
+      <p class="cert-issuer">
+        Taking ideas from research papers and experiments toward working
+        prototypes that can address real-world problems.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+
+
+
+    <!-- PROJECTS -->
+<section id="projects" class="section wrap">
+  <div class="section-head">
+    <p class="eyebrow mono">CASE_FILES / 03</p>
+    <h2>Selected Projects</h2>
+    <p class="section-intro">
+      Research-driven projects presented through the problem, technical approach,
+      experimentation, and outcome.
+    </p>
+  </div>
+
+  <div class="case-list">
+
+    <!-- PROJECT 01 -->
+    <article class="case">
+      <div class="case-top mono">
+        <span>PROJECT_01</span>
+        <span class="tag">EXPLAINABLE AI</span>
+      </div>
+
+      <h3>Explainable AI Framework for ECG Arrhythmia Detection</h3>
+
+      <div class="case-grid">
+
+        <div>
+          <span class="field-label mono">PROBLEM</span>
+          <p>
+            Develop an ECG-based arrhythmia classification system while
+            addressing the black-box nature of machine learning predictions.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">APPROACH</span>
+          <p>
+            Built a machine learning workflow for ECG signal classification
+            and integrated explainability techniques to investigate the
+            signal characteristics influencing model decisions.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">OUTCOME</span>
+          <p>
+            Developed as a research prototype during my summer internship,
+            exploring the combination of reliable classification and
+            interpretable AI for biomedical signals.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="case-bottom mono">
+        <span>PYTHON · ML · XAI · ECG</span>
+        <a href="#contact">DISCUSS PROJECT →</a>
+      </div>
+    </article>
+
+
+    <!-- PROJECT 02 -->
+    <article class="case">
+      <div class="case-top mono">
+        <span>PROJECT_02</span>
+        <span class="tag">QUANTUM ML</span>
+      </div>
+
+      <h3>Quantum Machine Learning for Imbalanced ECG Arrhythmia Detection</h3>
+
+      <div class="case-grid">
+
+        <div>
+          <span class="field-label mono">PROBLEM</span>
+          <p>
+            Investigate machine learning performance on imbalanced ECG
+            arrhythmia data, where minority classes can be difficult to
+            identify accurately.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">APPROACH</span>
+          <p>
+            Explored a quantum machine learning approach and compared its
+            performance with classical learning methods, considering
+            preprocessing, class imbalance, and evaluation metrics.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">OUTCOME</span>
+          <p>
+            Developed as a comparative research study and prepared for
+            publication as a book chapter focused on quantum approaches
+            to imbalanced biomedical classification.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="case-bottom mono">
+        <span>PYTHON · QML · SVM · ECG · IMBALANCED DATA</span>
+        <a href="#contact">DISCUSS PROJECT →</a>
+      </div>
+    </article>
+
+
+    <!-- PROJECT 03 -->
+    <article class="case">
+      <div class="case-top mono">
+        <span>PROJECT_03</span>
+        <span class="tag">AI AGENT</span>
+      </div>
+
+      <h3>Browser Agent for AI-Assisted Research</h3>
+
+      <div class="case-grid">
+
+        <div>
+          <span class="field-label mono">PROBLEM</span>
+          <p>
+            Reduce the repetitive effort involved in web-based research
+            by allowing users to describe a task in natural language.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">APPROACH</span>
+          <p>
+            Prototyped an AI agent workflow that interprets user requests,
+            performs browser-oriented actions, and organizes the resulting
+            information into a useful response.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">OUTCOME</span>
+          <p>
+            Working prototype exploring how AI agents can combine reasoning,
+            tool interaction, and browser automation for practical research
+            workflows.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="case-bottom mono">
+        <span>PYTHON · AI AGENTS · AUTOMATION · BROWSER</span>
+        <a href="#contact">DISCUSS PROJECT →</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
+<div class="signal-strip" aria-hidden="true">
+  <span></span>
+</div>
+
+
+<!-- RESEARCH / EXPERIENCE -->
+<section id="research" class="section wrap">
+
+  <div class="section-head">
+    <p class="eyebrow mono">TIMELINE / 04</p>
+    <h2>Research &amp; Experience</h2>
+    <p class="section-intro">
+      Research, internships, and collaborative roles that have shaped how 
+      I approach engineering, machine learning, and intelligent systems.
+    </p>
+  </div>
+
+  <div class="case-list">
+
+    <!-- NIT DELHI -->
+    <article class="case">
+
+      <div class="case-top mono">
+        <span>JUL 2026</span>
+        <span class="tag">RESEARCH INTERNSHIP</span>
+      </div>
+
+      <h3>Research Intern — NIT Delhi</h3>
+
+      <div class="case-grid">
+
+        <div>
+          <span class="field-label mono">CONTEXT</span>
+          <p>
+            Worked in the Communication Lab, 
+            Department of Electronics and Communication Engineering, 
+            focusing on biomedical signal analysis and machine learning-based intelligent systems.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">CONTRIBUTION</span>
+          <p>
+            Worked on an Explainable AI framework for ECG arrhythmia detection, 
+            combining biomedical signal processing, machine learning, classification,
+             and model interpretability to develop a more transparent diagnostic workflow.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">OUTCOME</span>
+          <p>
+            Developed a research-oriented prototype and explored the complete workflow 
+            from ECG signal preprocessing and classification to model interpretation, 
+            gaining experience in translating a research problem into a practical intelligent system.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="case-bottom mono">
+        <span>RESEARCH · ECG · SIGNAL PROCESSING · ML · XAI</span>
+        <a href="#contact">DISCUSS PROJECT →</a>
+      </div>
+
+    </article>
+
+
+    <!-- IEEE -->
+    <article class="case">
+
+      <div class="case-top mono">
+        <span>2023 — PRESENT</span>
+        <span class="tag">IEEE · EDITING HEAD</span>
+      </div>
+
+      <h3>Editing Head — IEEE Student Community</h3>
+
+      <div class="case-grid">
+
+        <div>
+          <span class="field-label mono">CONTEXT</span>
+          <p>
+            Three-year involvement with IEEE, contributing to student-led
+            technical communication and creative initiatives.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">CONTRIBUTION</span>
+          <p>
+            Handled editing and content-related responsibilities,
+             collaborating with team members to structure, 
+            refine, and communicate technical ideas clearly across student-led initiatives.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">OUTCOME</span>
+          <p>
+            Developed experience in technical communication, collaborative
+            work, content development, and taking ownership of team-level
+            responsibilities.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="case-bottom mono">
+        <span>IEEE · EDITING · COMMUNICATION · LEADERSHIP</span>
+      
+      </div>
+
+    </article>
+
+  </div>
+</section>
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+
+
+
+    <!-- SKILLS -->
+    <section id="skills" class="section wrap">
+      <div class="section-head">
+        <p class="eyebrow mono">STACK</p>
+        <h2>Skills</h2>
+      </div>
+      <aside class="spec-card">
+        <div class="spec-row mono"><span>LANGUAGES</span><b>Python · C · C++ · MATLAB</b></div>
+        <div class="spec-row mono"><span>AI / ML</span><b>Scikit-learn · PyTorch · TensorFlow · NumPy · Pandas · Matplotlib</b></div>
+        <div class="spec-row mono"><span>SIGNAL PROCESSING</span><b>ECG · EEG · Biomedical Signal Analysis · Classification</b></div>
+        <div class="spec-row mono"><span>RESEARCH AREAS</span><b>Explainable AI · Quantum Machine Learning · Signal Processing · AI Agents
+</b></div>
+        <div class="spec-row mono"><span>TOOLS & PLATFORMS</span><b>Anaconda · Git · Jupyter · Google Colab · VS Code · Power BI</b></div>
+      </aside>
+    </section>
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+    <!-- ACHIEVEMENTS (certificate images) -->
+
+<section id="achievements" class="section wrap">
+
+  <div class="section-head">
+    <p class="eyebrow mono">CREDENTIALS</p>
+
+    <h2>Achievements</h2>
+
+    <p class="section-intro">
+      A collection of certifications, internships, workshops,
+      technical events, and professional contributions.
+    </p>
+  </div>
+
+
+  <div class="cert-grid">
+<!-- ================= CERTIFICATE 01 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_01</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_01.jpeg"
+          alt="NIT Delhi Internship Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate5.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Hybrid Deep Learning for ECG Arrhythmia Detection
+      </h3>
+
+      <p class="cert-issuer mono">
+        National Institute of Technology Delhi · 2026
+      </p>
+
+    </div>
+
+
+  
+
+    <!-- ================= CERTIFICATE 02 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_02</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_02.jpeg"
+          alt="DRDE Science Exhibition Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate2.jpg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        DRDE Science Exhibition
+      </h3>
+
+      <p class="cert-issuer mono">
+        Defence R&D Establishment · 2019
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 03 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_03</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_03.jpeg"
+          alt="NEXTWAVE Smart Living Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate3.png')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        NEXTWAVE: Smart Living
+      </h3>
+
+      <p class="cert-issuer mono">
+        IEEE PES Student Branch Chapter · 2024
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 04 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_04</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_04.jpeg"
+          alt="Mastering Competitive Success Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate4.png')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Mastering Competitive Success
+      </h3>
+
+      <p class="cert-issuer mono">
+        MITS Gwalior · 2025
+      </p>
+
+    </div>
+
+<!-- ================= CERTIFICATE 05 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_05</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_05.jpeg"
+          alt="Data Visualization and Tools Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate1.png')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Data Visualization & Tools
+      </h3>
+
+      <p class="cert-issuer mono">
+        edSlash Coding Hub · 2024
+      </p>
+
+    </div>
+
+   
+
+
+    <!-- ================= CERTIFICATE 06 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_06</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_06.jpeg"
+          alt="SLAB Hackathon Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate6.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        SLAB Hackathon
+      </h3>
+
+      <p class="cert-issuer mono">
+        Gwalior DAO × IEEE PES · 2025
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 07 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_07</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_07.jpeg"
+          alt="AppCraft Workshop Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate7.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        AppCraft Workshop
+      </h3>
+
+      <p class="cert-issuer mono">
+        Innovation & DIY Club · 2024
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 08 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_08</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_08.jpeg"
+          alt="Dash-Up Royale Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate8.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Dash-Up Royale
+      </h3>
+
+      <p class="cert-issuer mono">
+        Department of Electronics Engineering & IETE · 2025
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 09 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_09</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_09.png"
+          alt="Fun Factor Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate9.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Fun Factor
+      </h3>
+
+      <p class="cert-issuer mono">
+        IEEE Power & Energy Society · 2025
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 10 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_10</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_10.png"
+          alt="Google Cloud Digital Transformation Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate10.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Introduction to Digital Transformation with Google Cloud
+      </h3>
+
+      <p class="cert-issuer mono">
+        Google Cloud · 2025
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 11 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_11</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_11.png"
+          alt="Machine Learning Algorithms Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate11.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Fundamentals of Machine Learning Algorithms & Applications
+      </h3>
+
+      <p class="cert-issuer mono">
+        MITS Gwalior · 2025
+      </p>
+
+    </div>
+
+
+    <!-- ================= CERTIFICATE 12 ================= -->
+
+    <div class="cert-card">
+
+      <span class="field-label mono">CERT_12</span>
+
+      <div class="cert-image-wrap">
+        <img
+          class="cert-image"
+          src="certificate_12.jpg"
+          alt="Microwave Devices for 5G Certificate"
+        >
+
+        <button
+          class="cert-view-btn"
+          onclick="openCertificate('certificate12.jpeg')"
+        >
+          VIEW CERTIFICATE ↗
+        </button>
+      </div>
+
+      <h3 class="cert-name">
+        Design & Analysis of Microwave Devices for 5G & Beyond
+      </h3>
+
+      <p class="cert-issuer mono">
+        ETE & IETE Students' Forum, MITS · 2025
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CERTIFICATE VIEWER ================= -->
+
+<div
+  id="certificateModal"
+  class="certificate-modal"
+  aria-hidden="true"
+>
+
+  <button
+    class="modal-close"
+    onclick="closeCertificate()"
+    aria-label="Close certificate"
+  >
+    ×
+  </button>
+
+  <img
+    id="modalCertificate"
+    src=""
+    alt="Certificate Preview"
+  >
+
+</div>
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+    <!-- RESUME -->
+    <section id="resume" class="section wrap">
+  <div class="section-head">
+    <p class="eyebrow mono">DOWNLOAD</p>
+    <h2>Resume</h2>
+    <p class="section-intro">
+      A concise overview of my education, research, projects, and experience.
+    </p>
+  </div>
+
+  <a
+    class="btn btn-primary"
+    href="./Vinay_Savita_Resume.pdf"
+    download="Vinay_Savita_Resume.pdf">
+    Download Resume ↓
+  </a>
+</section>
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact wrap">
+      <p class="eyebrow mono">CONTACT / 01</p>
+      <h2>Have an interesting ML problem?</h2>
+      <p class="contact-sub">I'm open to internships, research collaborations, and opportunities where I can build and learn.</p>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="mailto:vinaysavita0923@example.com">Email me ↗</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/Vinaysavita-0923" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <a class="btn btn-ghost" href="https://www.instagram.com/vinay_savita2309/" target="_blank" rel="noreferrer">Instagram ↗</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner mono">
+      <span>VINAY SAVITA</span>
+      <span>Email:vinaysavita0923@gmail.com</span>
+      <span>Mobile No: 9522660564</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
