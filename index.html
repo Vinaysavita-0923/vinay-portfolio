@@ -9,13 +9,59 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23141414'/%3E%3Ctext x='50' y='68' font-size='60' font-family='Arial,sans-serif' font-weight='700' fill='%23E50914' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <!-- EDIT: replace with your real deployed URL once you have a domain -->
+  <link rel="canonical" href="https://vinay-savita-portfolio.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Vinay Savita — AI/ML Engineering">
+  <meta property="og:description" content="Vinay — engineering student building practical machine learning and explainable AI systems.">
+  <meta property="og:image" content="image1.jpeg">
+  <meta property="og:url" content="https://vinay-savita-portfolio.vercel.app/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vinay Savita — AI/ML Engineering">
+  <meta name="twitter:description" content="Vinay — engineering student building practical machine learning and explainable AI systems.">
+  <meta name="twitter:image" content="image1.jpeg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Vinay Savita",
+    "jobTitle": "AI/ML Engineering Student",
+    "description": "Engineering student building practical machine learning and explainable AI systems.",
+    "image": "image1.jpeg"
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#top">Skip to main content</a>
   <canvas id="siteStars" class="site-stars" aria-hidden="true"></canvas>
+
+  <div id="startScreen" class="start-screen" aria-hidden="false">
+    <div class="start-content">
+      <p class="start-eyebrow mono">...PORTFOLIO...</p>
+      <button id="enterSiteBtn" class="start-enter-btn" type="button">
+        <span>Enter Site</span>
+        <span class="start-enter-icon">→</span>
+      </button>
+      <p class="start-hint mono">Click anywhere to continue</p>
+    </div>
+  </div>
 
   <div id="introOverlay" class="intro-overlay" aria-hidden="true">
     <canvas id="introStars" class="intro-stars"></canvas>
     <div class="intro-glow" id="introGlow"></div>
+    <div class="intro-counter-wrap" id="introCounterWrap">
+      <div class="intro-ring">
+        <div class="intro-tick-ring" id="introTickRing"></div>
+        <div class="intro-ring-center">
+          <p class="intro-loading-label mono">LOADING<span class="intro-loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
+          <span class="intro-counter-row">
+            <span class="intro-counter" id="introCounter">0</span><span class="intro-counter-pct">%</span>
+          </span>
+        </div>
+      </div>
+    </div>
     <div class="intro-logo" id="introLogo">
       <span id="introMain"></span><span class="intro-text-accent" id="introAccent"></span><span class="intro-cursor" id="introCursor">|</span>
     </div>
@@ -25,10 +71,10 @@
     <div class="wrap header-inner">
       <div class="header-left">
         <a class="logo mono" href="#top">VINAY<span>.AI</span></a>
-        <img class="profile-avatar" src="image1.jpeg" alt="Vinay Savita">
+        <img class="profile-avatar" src="image1.jpeg" alt="Vinay Savita" width="34" height="34">
       </div>
       <div class="header-right">
-        <nav aria-label="Primary navigation">
+        <nav id="primaryNav" aria-label="Primary navigation">
           <a href="#top">Home</a>
           <a href="#about">About</a>
           <a href="#what-i-do">What I Do</a>
@@ -36,13 +82,26 @@
           <a href="#research">Research</a>
           <a href="#skills">Skills</a>
           <a href="#achievements">Achievements</a>
+          <a href="#editing">Editing</a>
           <a href="#resume">Resume</a>
           <a href="#contact">Connect</a>
         </nav>
         <button id="themeToggle" class="theme-toggle" aria-label="Toggle light and dark mode" type="button">🌙</button>
+        <button
+          id="navToggle"
+          class="nav-toggle"
+          type="button"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="primaryNav"
+        >
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
+
+  <div id="navBackdrop" class="nav-backdrop"></div>
 
   <main id="top">
 
@@ -50,26 +109,52 @@
     <section class="hero wrap">
       <div class="hero-copy">
         <p class="eyebrow mono"><span class="status-dot"></span> AI/ML • ENGINEERING • INTELLIGENT SYSTEMS</p>
-        <h1>I turn data into intelligent systems that <em>solve real-world problems.</em></h1>
-        <p class="hero-sub">Engineering student focused on practical ML, explainable AI, and intelligent systems - from experimentation to working prototypes.</p>
+        <div class="kinetic-name-wrap">
+          <h2 class="kinetic-name" id="kineticName"><span class="kn-thin">VIN</span><span class="kn-bold">AY</span><span class="kn-thin"> SAVITA</span></h2>
+          <div class="kinetic-scan" aria-hidden="true"></div>
+          <div class="kinetic-glow" aria-hidden="true"></div>
+        </div>
+        <h1 class="rotate-headline"><span class="rotate-headline-track" id="rotateHeadlineTrack"><span class="rotate-headline-line">I turn data into intelligent systems that <em>solve real-world problems.</em></span><span class="rotate-headline-line">I build explainable AI that people can actually <em>trust.</em></span><span class="rotate-headline-line">I turn research into working, <em>usable systems.</em></span><span class="rotate-headline-line">I turn data into intelligent systems that <em>solve real-world problems.</em></span></span></h1>
+        <p class="hero-sub">Engineering student focused on practical ML, web development, explainable AI, and intelligent systems — turning ideas and experiments into working prototypes.
+</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#projects">View projects <span>↘</span></a>
           <a class="btn btn-ghost" href="#contact">Let's connect</a>
         </div>
       </div>
 
-      <div class="hero-readout" aria-label="Portfolio status">
-        <div class="readout-head mono"><span>SYSTEM_READOUT</span><span>v1.0</span></div>
-        <svg class="hero-signal" viewBox="0 0 520 170" role="img" aria-label="Abstract machine learning signal visualization">
-          <path class="grid-line" d="M0 30H520M0 85H520M0 140H520M80 0V170M180 0V170M280 0V170M380 0V170M480 0V170"/>
-          <path class="signal" d="M0 85 C35 85 38 85 52 85 S72 83 82 85 S91 130 103 85 S118 38 130 85 S153 86 175 85 S190 83 202 85 S211 112 220 85 S238 62 248 85 S265 87 285 85 S301 80 315 85 S324 102 334 85 S349 70 361 85 S380 85 400 85 S414 82 427 85 S438 128 449 85 S465 45 477 85 S493 85 520 85"/>
-          <circle class="signal-point" cx="449" cy="85" r="4"/>
-        </svg>
-        <div class="readout-data mono">
-          <span><b>MODE</b> RESEARCH + BUILD</span>
-          <span><b>FOCUS</b> ML / XAI / QML</span>
-          <span><b>STATUS</b> <i>ACTIVE</i></span>
+      <div class="hero-photo-card" id="heroPhotoCard" tabindex="0" role="button" aria-label="Hover or tap to flip and see focus areas">
+        <div class="hero-photo-flip">
+          <div class="hero-photo-face hero-photo-front">
+            <img src="image1-nobg.png" alt="Vinay Savita">
+            <div class="hero-photo-tag mono">HI, I'M VINAY</div>
+          </div>
+          <div class="hero-photo-face hero-photo-back">
+            <span class="hero-photo-back-label mono">FOCUS AREAS</span>
+            <ul class="hero-photo-list">
+              <li>Machine Learning</li>
+              <li>Explainable AI</li>
+              <li>QUANTUM ML</li>
+              <li>AI Agents</li>
+              <li>E&TC ENGINEERING</li>
+              <li>WEB DEVELOPMENT</li>
+            </ul>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
+    <!-- PHILOSOPHY (no nav link — nav is already at 10 items) -->
+    <section id="philosophy" class="philosophy">
+      <div class="philosophy-bg" aria-hidden="true"></div>
+      <div class="wrap philosophy-inner">
+        <p class="eyebrow mono">THE PHILOSOPHY</p>
+        <p class="philosophy-text">I believe good engineering turns ideas and data into systems that are practical,
+           reliable, and easy to use. I enjoy combining machine learning with web development to build intelligent solution
+           s that work beyond experiments and solve real-world problems.
+</p>
       </div>
     </section>
 
@@ -83,23 +168,27 @@
       </div>
       <div class="about-grid">
         <div>
-          <img class="about-portrait" src="image1.jpeg" alt="Vinay Savita">
-          <p class="about-lead">I'm an Electronics &amp; Telecommunication Engineering student building practical AI/ML systems for real-world problems.</p>
-          <p class="about-copy">I’m an Electronics & Telecommunication Engineering student exploring AI/ML through explainable AI, quantum machine learning, signal-based classification, and AI agents. For the past three years, I’ve also served as an IEEE Editing Head, working at the intersection of technical communication, creativity, and collaboration. I enjoy taking ideas from research and experimentation and turning them into practical, intelligent systems for real-world use.
+          <img class="about-portrait" src="image1.jpeg" alt="Vinay Savita" width="140" height="140" loading="lazy">
+          <p class="about-lead">I BUILD PRACTICAL AI/ML & WEB SYSTEMS AT THE INTERSECTION OF ENGINEERING AND INTELLIGENCE.</p>
+          <p class="about-copy">I’m an Electronics & Telecommunication Engineering student who 
+            enjoys understanding how things work and then turning that understanding into something useful. 
+            My work spans AI/ML, Explainable AI, Quantum Machine Learning, signal-based classification, AI agents, 
+            and web development. Over the past three years as an IEEE Editing Head, I’ve also learned how much good engineering 
+            depends on clear communication, creativity, and collaboration. I’m most interested in taking an idea from research or 
+            experimentation and building it into a practical system that people can actually use.
+.
 .</p>
         </div>
         <aside class="spec-card">
           <div class="spec-row mono"><span>PRIMARY</span><b>Machine Learning</b></div>
-          <div class="spec-row mono"><span>EXPLORING</span><b>Explainable AI · Quantum ML · AI Agents</b></div>
-          <div class="spec-row mono"><span>DEGREE</span><b>Electronic & Telecom Engineering</b></div>
+          <div class="spec-row mono"><span>EXPLORING</span><b>Explainable AI · Quantum ML · AI Agents · Web Development</b></div>
+          <div class="spec-row mono"><span>DEGREE</span><b>Electronics & Telecommunication Engineering</b></div>
           <div class="spec-row mono"><span>INTEREST</span><b>Research → Experiment → Prototype</b></div>
         </aside>
       </div>
     </section>
 
     <div class="signal-strip" aria-hidden="true"><span></span></div>
-
-
 
     <!-- WHAT I DO -->
 <section id="what-i-do" class="section wrap">
@@ -124,10 +213,10 @@
 
     <div class="cert-card">
       <span class="field-label mono">02</span>
-      <h3 class="cert-name">Quantum Machine Learning</h3>
+      <h3 class="cert-name">Machine Learning</h3>
       <p class="cert-issuer">
-        Exploring quantum computing approaches to machine learning,
-        particularly for challenging classification and prediction problems.
+        Building and evaluating machine learning models for classification,
+    prediction, and real-world problem solving.
       </p>
     </div>
 
@@ -142,19 +231,19 @@
 
     <div class="cert-card">
       <span class="field-label mono">04</span>
-      <h3 class="cert-name">Biomedical Signal Processing</h3>
+      <h3 class="cert-name">Web Development</h3>
       <p class="cert-issuer">
-        Working with ECG and EEG signals to explore signal processing,
-        pattern recognition, and intelligent healthcare applications.
+         Building responsive and interactive web experiences using HTML,
+    CSS, JavaScript, and modern development workflows.
       </p>
     </div>
 
     <div class="cert-card">
       <span class="field-label mono">05</span>
-      <h3 class="cert-name">Machine Learning &amp; Classification</h3>
+      <h3 class="cert-name">AI-Powered Web Systems</h3>
       <p class="cert-issuer">
-        Building and evaluating ML models for classification problems,
-        with an emphasis on experimentation, performance, and reliability.
+        Combining machine learning with web development to turn intelligent
+    models and research ideas into accessible, usable applications.
       </p>
     </div>
 
@@ -171,8 +260,6 @@
 </section>
 
     <div class="signal-strip" aria-hidden="true"><span></span></div>
-
-
 
 
     <!-- PROJECTS -->
@@ -192,7 +279,7 @@
     <article class="case">
       <div class="case-top mono">
         <span>PROJECT_01</span>
-        <span class="tag">EXPLAINABLE AI</span>
+        <span class="tag">Research paper</span>
       </div>
 
       <h3>Explainable AI Framework for ECG Arrhythmia Detection</h3>
@@ -228,8 +315,11 @@
       </div>
 
       <div class="case-bottom mono">
-        <span>PYTHON · ML · XAI · ECG</span>
-        <a href="#contact">DISCUSS PROJECT →</a>
+        <span>PYTHON · ML · QML · ECG</span>
+        <div class="case-actions">
+          <a class="case-paper-link" href="elsever_bookchapter_2026.pdf" target="_blank" rel="noreferrer">View the Paper ↗</a>
+          <a href="#contact">DISCUSS →</a>
+        </div>
       </div>
     </article>
 
@@ -238,10 +328,12 @@
     <article class="case">
       <div class="case-top mono">
         <span>PROJECT_02</span>
-        <span class="tag">QUANTUM ML</span>
+        <span class="tag">Research paper</span>
       </div>
 
-      <h3>Quantum Machine Learning for Imbalanced ECG Arrhythmia Detection</h3>
+      <h3>Performance Analysis of Quantum 
+Machine Learning Model for Imbalanced 
+ECG Arrhythmia Detection</h3>
 
       <div class="case-grid">
 
@@ -276,7 +368,10 @@
 
       <div class="case-bottom mono">
         <span>PYTHON · QML · SVM · ECG · IMBALANCED DATA</span>
-        <a href="#contact">DISCUSS PROJECT →</a>
+        <div class="case-actions">
+          <a class="case-paper-link" href="vinayxVansh.pdf" target="_blank" rel="noreferrer">View the Paper ↗</a>
+          <a href="#contact">DISCUSS →</a>
+        </div>
       </div>
     </article>
 
@@ -285,44 +380,46 @@
     <article class="case">
       <div class="case-top mono">
         <span>PROJECT_03</span>
-        <span class="tag">AI AGENT</span>
+        <span class="tag">Research paper</span>
       </div>
 
-      <h3>Browser Agent for AI-Assisted Research</h3>
+      <h3>A Residual Deep Learning Framework for EEG-Based
+Epileptic Seizure Stage Classification</h3>
 
       <div class="case-grid">
 
         <div>
           <span class="field-label mono">PROBLEM</span>
           <p>
-            Reduce the repetitive effort involved in web-based research
-            by allowing users to describe a task in natural language.
+            Develop an EEG-based deep learning system for classifying different
+stages of epileptic seizures from complex and highly variable brain signals.
           </p>
         </div>
 
         <div>
           <span class="field-label mono">APPROACH</span>
           <p>
-            Prototyped an AI agent workflow that interprets user requests,
-            performs browser-oriented actions, and organizes the resulting
-            information into a useful response.
+            Developed a residual deep learning framework to learn discriminative
+patterns from EEG signals and classify seizure stages effectively.
           </p>
         </div>
 
         <div>
           <span class="field-label mono">OUTCOME</span>
           <p>
-            Working prototype exploring how AI agents can combine reasoning,
-            tool interaction, and browser automation for practical research
-            workflows.
+           Developed a research-oriented framework for automated EEG analysis,
+exploring deep learning approaches for reliable seizure stage classification.
           </p>
         </div>
 
       </div>
 
       <div class="case-bottom mono">
-        <span>PYTHON · AI AGENTS · AUTOMATION · BROWSER</span>
-        <a href="#contact">DISCUSS PROJECT →</a>
+        <span>PYTHON · DEEP LEARNING · EEG · SIGNAL PROCESSING · RESNET</span>
+        <div class="case-actions">
+          <a class="case-paper-link" href="yashxvinay.pdf" target="_blank" rel="noreferrer">View the Paper ↗</a>
+          <a href="#contact">DISCUSS →</a>
+        </div>
       </div>
     </article>
 
@@ -342,8 +439,9 @@
     <p class="eyebrow mono">TIMELINE / 04</p>
     <h2>Research &amp; Experience</h2>
     <p class="section-intro">
-      Research, internships, and collaborative roles that have shaped how 
-      I approach engineering, machine learning, and intelligent systems.
+      Research, internships, and collaborative roles that have shaped how I 
+      approach engineering, machine learning, web development, and intelligent systems.
+
     </p>
   </div>
 
@@ -354,7 +452,7 @@
 
       <div class="case-top mono">
         <span>JUL 2026</span>
-        <span class="tag">RESEARCH INTERNSHIP</span>
+        <span class="tag">NIT-DELHI</span>
       </div>
 
       <h3>Research Intern — NIT Delhi</h3>
@@ -364,26 +462,23 @@
         <div>
           <span class="field-label mono">CONTEXT</span>
           <p>
-            Worked in the Communication Lab, 
-            Department of Electronics and Communication Engineering, 
-            focusing on biomedical signal analysis and machine learning-based intelligent systems.
+            Worked in the Communication Lab, Department of Electronics and Communication Engineering,
+             focusing on biomedical signal analysis and machine learning-based intelligent systems.
           </p>
         </div>
 
         <div>
           <span class="field-label mono">CONTRIBUTION</span>
           <p>
-            Worked on an Explainable AI framework for ECG arrhythmia detection, 
-            combining biomedical signal processing, machine learning, classification,
-             and model interpretability to develop a more transparent diagnostic workflow.
+            Worked on an Explainable AI framework for ECG arrhythmia detection, combining biomedical signal processing,
+             machine learning, classification, and model interpretability to develop a more transparent diagnostic workflow.
           </p>
         </div>
 
         <div>
           <span class="field-label mono">OUTCOME</span>
           <p>
-            Developed a research-oriented prototype and explored the complete workflow 
-            from ECG signal preprocessing and classification to model interpretation, 
+            Developed a research-oriented prototype and explored the complete workflow from ECG signal preprocessing and classification to model interpretation, 
             gaining experience in translating a research problem into a practical intelligent system.
           </p>
         </div>
@@ -391,19 +486,62 @@
       </div>
 
       <div class="case-bottom mono">
-        <span>RESEARCH · ECG · SIGNAL PROCESSING · ML · XAI</span>
-        <a href="#contact">DISCUSS PROJECT →</a>
+        <span>RESEARCH · ECG · MACHINE LEARNING · EXPLAINABLE AI (XAI)</span>
+        <a href="#contact">DISCUSS →</a>
       </div>
 
     </article>
 
+<!-- SSR -->
+    <article class="case">
 
+      <div class="case-top mono">
+        <span>AUGUST 2025</span>
+        <span class="tag">SSR CONSTRUCTIONS</span>
+      </div>
+
+      <h3>SITE-SUPERVISION INTERN</h3>
+
+      <div class="case-grid">
+
+        <div>
+          <span class="field-label mono">CONTEXT</span>
+          <p>
+            Worked as a Site Supervision Intern at SSR Constructions, Gwalior, 
+            supporting day-to-day construction activities and site coordination.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">CONTRIBUTION</span>
+          <p>
+            Monitored daily construction activities, assisted in checking work against drawings and specifications, 
+            coordinated with workers and contractors, tracked material requirements, and maintained daily progress records.
+          </p>
+        </div>
+
+        <div>
+          <span class="field-label mono">OUTCOME</span>
+          <p>
+            Developed practical skills in construction-site coordination,
+             progress monitoring, documentation, and execution of engineering work under site supervision.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="case-bottom mono">
+        <span>SITE SUPERVISION · CONSTRUCTION · PROJECT COORDINATION · SITE MANAGEMENT</span>
+        <a href="#contact">DISCUSS →</a>
+      </div>
+
+    </article>
     <!-- IEEE -->
     <article class="case">
 
       <div class="case-top mono">
         <span>2023 — PRESENT</span>
-        <span class="tag">IEEE · EDITING HEAD</span>
+        <span class="tag">IEEE-PES COMMUNITY</span>
       </div>
 
       <h3>Editing Head — IEEE Student Community</h3>
@@ -413,26 +551,26 @@
         <div>
           <span class="field-label mono">CONTEXT</span>
           <p>
-            Three-year involvement with IEEE, contributing to student-led
-            technical communication and creative initiatives.
+            Three-year involvement with IEEE, contributing to student-led technical 
+            communication and creative initiatives
           </p>
         </div>
 
         <div>
           <span class="field-label mono">CONTRIBUTION</span>
           <p>
-            Handled editing and content-related responsibilities,
-             collaborating with team members to structure, 
-            refine, and communicate technical ideas clearly across student-led initiatives.
+            Handled editing and content-related responsibilities, 
+            collaborating with team members to structure, refine, 
+            and communicate technical ideas clearly across student-led initiatives.
           </p>
         </div>
 
         <div>
           <span class="field-label mono">OUTCOME</span>
           <p>
-            Developed experience in technical communication, collaborative
-            work, content development, and taking ownership of team-level
-            responsibilities.
+            Developed experience in technical communication, 
+            collaborative work, content development,
+             and taking ownership of team-level responsibilities.
           </p>
         </div>
 
@@ -440,7 +578,7 @@
 
       <div class="case-bottom mono">
         <span>IEEE · EDITING · COMMUNICATION · LEADERSHIP</span>
-      
+        <a href="#contact">DISCUSS →</a>
       </div>
 
     </article>
@@ -449,22 +587,17 @@
 </section>
     <div class="signal-strip" aria-hidden="true"><span></span></div>
 
-
-
-
     <!-- SKILLS -->
     <section id="skills" class="section wrap">
       <div class="section-head">
-        <p class="eyebrow mono">STACK</p>
+        <p class="eyebrow mono">cs</p>
         <h2>Skills</h2>
       </div>
       <aside class="spec-card">
-        <div class="spec-row mono"><span>LANGUAGES</span><b>Python · C · C++ · MATLAB</b></div>
-        <div class="spec-row mono"><span>AI / ML</span><b>Scikit-learn · PyTorch · TensorFlow · NumPy · Pandas · Matplotlib</b></div>
-        <div class="spec-row mono"><span>SIGNAL PROCESSING</span><b>ECG · EEG · Biomedical Signal Analysis · Classification</b></div>
-        <div class="spec-row mono"><span>RESEARCH AREAS</span><b>Explainable AI · Quantum Machine Learning · Signal Processing · AI Agents
-</b></div>
+        <div class="spec-row mono"><span>LANGUAGES</span><b>Python · C++ · HTML · CSS3</b></div>
+        <div class="spec-row mono"><span>ML / DL</span><b>Scikit-learn · PyTorch · TensorFlow · NumPy · Pandas · Matplotlib</b></div>
         <div class="spec-row mono"><span>TOOLS & PLATFORMS</span><b>Anaconda · Git · Jupyter · Google Colab · VS Code · Power BI</b></div>
+        <div class="spec-row mono"><span>DOMAINS</span><b>Explainable AI · QML · Signal Processing · AI Agents · Web Development</b></div>
       </aside>
     </section>
 
@@ -487,7 +620,8 @@
 
 
   <div class="cert-grid">
-<!-- ================= CERTIFICATE 01 ================= -->
+
+    <!-- ================= CERTIFICATE 01 ================= -->
 
     <div class="cert-card">
 
@@ -498,6 +632,8 @@
           class="cert-image"
           src="certificate1.jpeg"
           alt="NIT Delhi Internship Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -519,8 +655,6 @@
     </div>
 
 
-  
-
     <!-- ================= CERTIFICATE 02 ================= -->
 
     <div class="cert-card">
@@ -532,6 +666,8 @@
           class="cert-image"
           src="certificate2.jpeg"
           alt="DRDE Science Exhibition Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -564,6 +700,8 @@
           class="cert-image"
           src="certificate3.jpeg"
           alt="NEXTWAVE Smart Living Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -587,7 +725,7 @@
 
     <!-- ================= CERTIFICATE 04 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_04</span>
 
@@ -596,6 +734,8 @@
           class="cert-image"
           src="certificate4.jpeg"
           alt="Mastering Competitive Success Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -616,9 +756,10 @@
 
     </div>
 
-<!-- ================= CERTIFICATE 05 ================= -->
 
-    <div class="cert-card">
+    <!-- ================= CERTIFICATE 05 ================= -->
+
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_05</span>
 
@@ -627,6 +768,8 @@
           class="cert-image"
           src="certificate5.jpeg"
           alt="Data Visualization and Tools Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -647,12 +790,10 @@
 
     </div>
 
-   
-
 
     <!-- ================= CERTIFICATE 06 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_06</span>
 
@@ -661,6 +802,8 @@
           class="cert-image"
           src="certificate6.jpeg"
           alt="SLAB Hackathon Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -684,7 +827,7 @@
 
     <!-- ================= CERTIFICATE 07 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_07</span>
 
@@ -693,6 +836,8 @@
           class="cert-image"
           src="certificate7.jpeg"
           alt="AppCraft Workshop Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -716,7 +861,7 @@
 
     <!-- ================= CERTIFICATE 08 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_08</span>
 
@@ -725,6 +870,8 @@
           class="cert-image"
           src="certificate8.jpeg"
           alt="Dash-Up Royale Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -748,7 +895,7 @@
 
     <!-- ================= CERTIFICATE 09 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_09</span>
 
@@ -757,6 +904,8 @@
           class="cert-image"
           src="certificate9.png"
           alt="Fun Factor Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -780,7 +929,7 @@
 
     <!-- ================= CERTIFICATE 10 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_10</span>
 
@@ -789,6 +938,8 @@
           class="cert-image"
           src="certificate10.png"
           alt="Google Cloud Digital Transformation Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -812,7 +963,7 @@
 
     <!-- ================= CERTIFICATE 11 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_11</span>
 
@@ -821,6 +972,8 @@
           class="cert-image"
           src="certificate11.png"
           alt="Machine Learning Algorithms Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -844,7 +997,7 @@
 
     <!-- ================= CERTIFICATE 12 ================= -->
 
-    <div class="cert-card">
+    <div class="cert-card cert-extra">
 
       <span class="field-label mono">CERT_12</span>
 
@@ -853,6 +1006,8 @@
           class="cert-image"
           src="certificate12.jpg"
           alt="Microwave Devices for 5G Certificate"
+        
+          loading="lazy"
         >
 
         <button
@@ -873,6 +1028,18 @@
 
     </div>
 
+  </div>
+
+  <div class="cert-toggle-wrap">
+    <button
+      id="certToggleBtn"
+      class="btn btn-ghost cert-toggle-btn"
+      type="button"
+      aria-expanded="false"
+      aria-controls="achievements"
+    >
+      View More Certificates ↓
+    </button>
   </div>
 
 </section>
@@ -904,6 +1071,300 @@
 
     <div class="signal-strip" aria-hidden="true"><span></span></div>
 
+    <!-- ================= EDITING ================= -->
+
+    <section id="editing" class="section wrap">
+      <div class="section-head">
+        <p class="eyebrow mono">CREATIVE WORK</p>
+        <h2>Editing</h2>
+        <p class="section-intro">
+          A few reels and video edits I've cut — shot, edited, and graded end to end.
+        </p>
+      </div>
+
+      <div class="edit-grid">
+
+        <!-- ================= EDIT 01 ================= -->
+        <!-- Upload the video to YouTube (Unlisted is fine so it
+             doesn't show up in public search/your channel feed),
+             then replace every REPLACE_WITH_YOUTUBE_ID_1 in this
+             card (it appears twice — in the embed src and in the
+             "Watch on YouTube" link) with the video's ID — the
+             part after "watch?v=" in its URL. -->
+
+        <div class="edit-card">
+
+          <span class="field-label mono">EDIT_01</span>
+
+          <div class="edit-video-wrap">
+            <iframe
+              class="edit-video"
+              src="https://www.youtube.com/embed/5VPEysTOqmo"
+              title="Edit 1"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3 class="cert-name">General Coach</h3>
+
+          <div class="edit-links">
+
+            <a
+              class="edit-yt-link"
+              href="https://www.youtube.com/watch?v=5VPEysTOqmo"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="edit-yt-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="6" width="19" height="12" rx="4"/>
+                  <path d="M10.5 9.5 15.5 12 10.5 14.5Z" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              Watch on YouTube ↗
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- ================= EDIT 02 ================= -->
+
+        <div class="edit-card">
+
+          <span class="field-label mono">EDIT_02</span>
+
+          <div class="edit-video-wrap">
+            <iframe
+              class="edit-video"
+              src="https://www.youtube.com/embed/x9MilN3XdsM"
+              title="Edit 2"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3 class="cert-name">Delhi Junction</h3>
+
+          <div class="edit-links">
+
+            <a
+              class="edit-yt-link"
+              href="https://www.youtube.com/watch?v=x9MilN3XdsM"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="edit-yt-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="6" width="19" height="12" rx="4"/>
+                  <path d="M10.5 9.5 15.5 12 10.5 14.5Z" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              Watch on YouTube ↗
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- ================= EDIT 03 ================= -->
+
+        <div class="edit-card">
+
+          <span class="field-label mono">EDIT_03</span>
+
+          <div class="edit-video-wrap">
+            <iframe
+              class="edit-video"
+              src="https://www.youtube.com/embed/C04mK0ukopw"
+              title="Edit 3"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3 class="cert-name">Art of Noticing</h3>
+
+          <div class="edit-links">
+
+            <a
+              class="edit-yt-link"
+              href="https://www.youtube.com/shorts/C04mK0ukopw"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="edit-yt-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="6" width="19" height="12" rx="4"/>
+                  <path d="M10.5 9.5 15.5 12 10.5 14.5Z" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              Watch on YouTube ↗
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- ================= EDIT 04 ================= -->
+        <!-- Hidden by default (class "edit-extra") — revealed by
+             the "View More" button below. Add as many more of
+             these edit-card blocks as you need, with edit-extra
+             on all of them, and they'll all show up together. -->
+
+        <div class="edit-card edit-extra">
+
+          <span class="field-label mono">EDIT_04</span>
+
+          <div class="edit-video-wrap">
+            <iframe
+              class="edit-video"
+              src="https://www.youtube.com/embed/REPLACE_WITH_YOUTUBE_ID_4"
+              title="Edit 4"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3 class="cert-name">Edit Title 04</h3>
+
+          <div class="edit-links">
+
+            <a
+              class="edit-yt-link"
+              href="https://www.youtube.com/watch?v=REPLACE_WITH_YOUTUBE_ID_4"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="edit-yt-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="6" width="19" height="12" rx="4"/>
+                  <path d="M10.5 9.5 15.5 12 10.5 14.5Z" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              Watch on YouTube ↗
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- ================= EDIT 05 ================= -->
+
+        <div class="edit-card edit-extra">
+
+          <span class="field-label mono">EDIT_05</span>
+
+          <div class="edit-video-wrap">
+            <iframe
+              class="edit-video"
+              src="https://www.youtube.com/embed/REPLACE_WITH_YOUTUBE_ID_5"
+              title="Edit 5"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3 class="cert-name">Edit Title 05</h3>
+
+          <div class="edit-links">
+
+            <a
+              class="edit-yt-link"
+              href="https://www.youtube.com/watch?v=REPLACE_WITH_YOUTUBE_ID_5"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="edit-yt-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="6" width="19" height="12" rx="4"/>
+                  <path d="M10.5 9.5 15.5 12 10.5 14.5Z" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              Watch on YouTube ↗
+            </a>
+
+          </div>
+
+        </div>
+
+        <!-- ================= EDIT 06 ================= -->
+
+        <div class="edit-card edit-extra">
+
+          <span class="field-label mono">EDIT_06</span>
+
+          <div class="edit-video-wrap">
+            <iframe
+              class="edit-video"
+              src="https://www.youtube.com/embed/REPLACE_WITH_YOUTUBE_ID_6"
+              title="Edit 6"
+              loading="lazy"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3 class="cert-name">Edit Title 06</h3>
+
+          <div class="edit-links">
+
+            <a
+              class="edit-yt-link"
+              href="https://www.youtube.com/watch?v=REPLACE_WITH_YOUTUBE_ID_6"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="edit-yt-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2.5" y="6" width="19" height="12" rx="4"/>
+                  <path d="M10.5 9.5 15.5 12 10.5 14.5Z" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              Watch on YouTube ↗
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="cert-toggle-wrap">
+        <button
+          id="editToggleBtn"
+          class="btn btn-ghost cert-toggle-btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="editing"
+        >
+          View More Edits ↓
+        </button>
+      </div>
+
+    </section>
+
+
+    <div class="signal-strip" aria-hidden="true"><span></span></div>
+
     <!-- RESUME -->
     <section id="resume" class="section wrap">
   <div class="section-head">
@@ -930,10 +1391,48 @@
       <h2>Have an interesting ML problem?</h2>
       <p class="contact-sub">I'm open to internships, research collaborations, and opportunities where I can build and learn.</p>
       <div class="contact-actions">
-        <a class="btn btn-primary" <a href="mailto:vinaysavita0923@gmail.com">Email me ↗</a>
-        <a class="btn btn-ghost" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-        <a class="btn btn-ghost" href="https://github.com/Vinaysavita-0923" target="_blank" rel="noreferrer">GitHub ↗</a>
-        <a class="btn btn-ghost" href="https://www.instagram.com/vinay_savita2309/" target="_blank" rel="noreferrer">Instagram ↗</a>
+
+        <a class="connect-card" href="mailto:vinaysavita0923@example.com">
+          <span class="connect-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4.5" width="19" height="15" rx="2.2"/>
+              <path d="M3.5 6.2 12 12.5l8.5-6.3"/>
+            </svg>
+          </span>
+          <span class="connect-label">Email</span>
+        </a>
+
+        <a class="connect-card" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
+          <span class="connect-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.94 8.5H3.56V20.5H6.94V8.5Z"/>
+              <path d="M5.25 7.02C6.35 7.02 7.25 6.13 7.25 5.02C7.25 3.92 6.35 3.02 5.25 3.02C4.14 3.02 3.25 3.92 3.25 5.02C3.25 6.13 4.14 7.02 5.25 7.02Z"/>
+              <path d="M20.75 13.6C20.75 10.37 19.13 8.24 16.19 8.24C14.63 8.24 13.61 8.99 13.06 9.79H13.02V8.5H9.8V20.5H13.18V14.6C13.18 12.98 13.63 11.4 15.63 11.4C17.6 11.4 17.63 13.27 17.63 14.71V20.5H21L20.75 13.6Z"/>
+            </svg>
+          </span>
+          <span class="connect-label">LinkedIn</span>
+        </a>
+
+        <a class="connect-card" href="https://github.com/Vinaysavita-0923" target="_blank" rel="noreferrer">
+          <span class="connect-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.58 2 12.2C2 16.68 4.87 20.47 8.84 21.8C9.34 21.9 9.52 21.58 9.52 21.31C9.52 21.07 9.51 20.24 9.51 19.36C6.73 19.97 6.14 18.11 6.14 18.11C5.68 16.93 5.03 16.61 5.03 16.61C4.12 15.98 5.1 15.99 5.1 15.99C6.1 16.06 6.63 17.03 6.63 17.03C7.5 18.56 8.93 18.12 9.5 17.86C9.59 17.21 9.85 16.77 10.13 16.52C7.9 16.27 5.56 15.4 5.56 11.53C5.56 10.42 5.95 9.51 6.65 8.8C6.54 8.55 6.19 7.5 6.75 6.11C6.75 6.11 7.62 5.84 9.5 7.13C10.29 6.91 11.15 6.8 12 6.8C12.85 6.8 13.71 6.91 14.5 7.13C16.38 5.84 17.25 6.11 17.25 6.11C17.81 7.5 17.46 8.55 17.35 8.8C18.05 9.51 18.44 10.42 18.44 11.53C18.44 15.41 16.09 16.27 13.85 16.51C14.2 16.82 14.52 17.42 14.52 18.34C14.52 19.65 14.51 20.97 14.51 21.31C14.51 21.58 14.69 21.9 15.2 21.8C19.17 20.46 22 16.68 22 12.2C22 6.58 17.52 2 12 2Z"/>
+            </svg>
+          </span>
+          <span class="connect-label">GitHub</span>
+        </a>
+
+        <a class="connect-card" href="https://www.instagram.com/vinay_savita2309/" target="_blank" rel="noreferrer">
+          <span class="connect-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span class="connect-label">Instagram</span>
+        </a>
+
       </div>
     </section>
 
@@ -941,12 +1440,12 @@
 
   <footer class="site-footer">
     <div class="wrap footer-inner mono">
-      <span>VINAY SAVITA</span>
-      <span>Email: vinaysavita0923@gmail.com</span>
-      <span>Mobile No: 9522660564</span>
+      <span>VINAY.AI</span>
+      <span>BUILT WITH HTML / CSS / JS</span>
+      <span>© 2026</span>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
