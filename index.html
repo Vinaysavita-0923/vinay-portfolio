@@ -115,8 +115,6 @@
           <div class="kinetic-glow" aria-hidden="true"></div>
         </div>
         <h1 class="rotate-headline"><span class="rotate-headline-track" id="rotateHeadlineTrack"><span class="rotate-headline-line">I turn data into intelligent systems that <em>solve real-world problems.</em></span><span class="rotate-headline-line">I build explainable AI that people can actually <em>trust.</em></span><span class="rotate-headline-line">I turn research into working, <em>usable systems.</em></span><span class="rotate-headline-line">I turn data into intelligent systems that <em>solve real-world problems.</em></span></span></h1>
-        <p class="hero-sub">Engineering student focused on practical ML, web development, explainable AI, and intelligent systems — turning ideas and experiments into working prototypes.
-</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#projects">View projects <span>↘</span></a>
           <a class="btn btn-ghost" href="#contact">Let's connect</a>
@@ -126,8 +124,11 @@
       <div class="hero-photo-card" id="heroPhotoCard" tabindex="0" role="button" aria-label="Hover or tap to flip and see focus areas">
         <div class="hero-photo-flip">
           <div class="hero-photo-face hero-photo-front">
-            <img src="image1-nobg.png" alt="Vinay Savita">
-            <div class="hero-photo-tag mono">HI, I'M VINAY</div>
+            <div class="hero-photo-imgbox">
+              <img src="image1-nobg.png" alt="Vinay Savita">
+              <div class="hero-photo-tag mono">HI, I'M VINAY</div>
+            </div>
+            <p class="hero-sub hero-photo-caption">Engineering student focused on practical ML, web development, explainable AI, and intelligent systems — turning ideas and experiments into working prototypes.</p>
           </div>
           <div class="hero-photo-face hero-photo-back">
             <span class="hero-photo-back-label mono">FOCUS AREAS</span>
@@ -283,8 +284,9 @@
       </div>
 
       <h3>Explainable AI Framework for ECG Arrhythmia Detection</h3>
+      <div class="case-question"><span class="case-question-mark" aria-hidden="true">?</span><p class="case-question-text">How can AI detect cardiac arrhythmias while explaining its predictions, instead of staying a black box?</p></div>
 
-      <div class="case-grid">
+      <div class="case-grid case-grid--hidden" aria-hidden="true">
 
         <div>
           <span class="field-label mono">PROBLEM</span>
@@ -314,7 +316,7 @@
 
       </div>
 
-      <div class="case-workflow mono">
+      <div class="case-workflow mono case-workflow--hidden" aria-hidden="true">
         <span class="flow-step">ECG Signal</span><span class="flow-arrow">→</span><span class="flow-step">Preprocessing</span><span class="flow-arrow">→</span><span class="flow-step">Classification</span><span class="flow-arrow">→</span><span class="flow-step">Explainability</span><span class="flow-arrow">→</span><span class="flow-step">Interpretation</span>
       </div>
 
@@ -324,7 +326,7 @@
         </div>
         <div class="case-actions">
           <a class="case-paper-link" href="elsever_bookchapter_2026.pdf" target="_blank" rel="noreferrer">Read Research Paper <span class="arrow">↗</span></a>
-          <a href="#contact">Discuss This Project <span class="arrow">→</span></a>
+          <a class="case-discuss" href="#contact" role="button" aria-haspopup="dialog" aria-controls="projectModal">Discuss This Project <span class="arrow">→</span></a>
         </div>
       </div>
     </article>
@@ -338,8 +340,9 @@
       </div>
 
       <h3>Performance Analysis of Quantum Machine Learning Model for Imbalanced ECG Arrhythmia Detection</h3>
+      <div class="case-question"><span class="case-question-mark" aria-hidden="true">?</span><p class="case-question-text">Can a quantum machine learning model spot rare, life-threatening heartbeats that classical models tend to miss?</p></div>
 
-      <div class="case-grid">
+      <div class="case-grid case-grid--hidden" aria-hidden="true">
 
         <div>
           <span class="field-label mono">PROBLEM</span>
@@ -370,7 +373,7 @@
 
       </div>
 
-      <div class="case-workflow mono">
+      <div class="case-workflow mono case-workflow--hidden" aria-hidden="true">
         <span class="flow-step">ECG Data</span><span class="flow-arrow">→</span><span class="flow-step">Preprocessing</span><span class="flow-arrow">→</span><span class="flow-step">Classical/QML Models</span><span class="flow-arrow">→</span><span class="flow-step">Evaluation</span><span class="flow-arrow">→</span><span class="flow-step">Comparison</span>
       </div>
 
@@ -380,7 +383,7 @@
         </div>
         <div class="case-actions">
           <a class="case-paper-link" href="vinayxVansh.pdf" target="_blank" rel="noreferrer">Read Research Paper <span class="arrow">↗</span></a>
-          <a href="#contact">Discuss This Project <span class="arrow">→</span></a>
+          <a class="case-discuss" href="#contact" role="button" aria-haspopup="dialog" aria-controls="projectModal">Discuss This Project <span class="arrow">→</span></a>
         </div>
       </div>
     </article>
@@ -394,8 +397,9 @@
       </div>
 
       <h3>A Residual Deep Learning Framework for EEG-Based Epileptic Seizure Stage Classification</h3>
+      <div class="case-question"><span class="case-question-mark" aria-hidden="true">?</span><p class="case-question-text">How can deep learning tell different stages of an epileptic seizure apart from raw, noisy EEG signals?</p></div>
 
-      <div class="case-grid">
+      <div class="case-grid case-grid--hidden" aria-hidden="true">
 
         <div>
           <span class="field-label mono">PROBLEM</span>
@@ -429,7 +433,7 @@ exploring deep learning approaches for reliable seizure stage classification.
         </div>
         <div class="case-actions">
           <a class="case-paper-link" href="yashxvinay.pdf" target="_blank" rel="noreferrer">Read Research Paper <span class="arrow">↗</span></a>
-          <a href="#contact">Discuss This Project <span class="arrow">→</span></a>
+          <a class="case-discuss" href="#contact" role="button" aria-haspopup="dialog" aria-controls="projectModal">Discuss This Project <span class="arrow">→</span></a>
         </div>
       </div>
     </article>
@@ -438,8 +442,8 @@ exploring deep learning approaches for reliable seizure stage classification.
 </section>
 
 <!-- ================= PROJECT DETAIL MODAL ================= -->
-<div id="projectModal" class="project-modal" aria-hidden="true" role="dialog" aria-modal="true">
-  <button class="modal-close" onclick="closeProjectModal()" aria-label="Close">×</button>
+<div id="projectModal" class="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+  <button type="button" class="modal-close" id="projectModalClose" aria-label="Close project details">×</button>
   <div class="project-modal-card" id="projectModalCard">
     <div class="project-modal-visual">
       <div class="project-modal-graphic" id="projectModalGraphic"></div>

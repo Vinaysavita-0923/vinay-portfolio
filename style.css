@@ -384,7 +384,23 @@ h2 { margin: 0; font-size: clamp(32px, 4.5vw, 48px); line-height: 1.05; letter-s
 /* 08 — ABOUT SECTION */
 .about-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 70px; align-items: start; }
 .about-lead { margin: 0; font-family: var(--display); font-size: clamp(24px, 3.5vw, 34px); line-height: 1.25; font-weight: 400; }
-.about-copy { margin: 20px 0 0; color: var(--muted); max-width: 680px; }
+.about-copy {
+  margin: 22px 0 0;
+  max-width: 66ch;           /* comfortable reading width, not full column width */
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.65;
+  text-align: left;
+}
+@media (max-width: 720px) {
+  .about-copy {
+    margin: 18px 0 0;
+    max-width: 100%;
+    font-size: clamp(17px, 4.3vw, 19px);
+    line-height: 1.65;
+  }
+  .about-grid > div:first-child { max-width: 100%; }
+}
 .spec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; }
 .spec-row { display: flex; justify-content: space-between; gap: 20px; padding: 16px; border-bottom: 1px solid var(--border); font-size: 11px; }
 .spec-row:last-child { border-bottom: 0; }
@@ -1972,6 +1988,25 @@ body {
   #what-i-do { --wiw-zoom: 1.1; }
 }
 
+/* Smaller, better-proportioned carousel cards on phones. Width scales
+   with the viewport (72-78%) instead of sitting at a near-fixed 250px,
+   so neighbouring cards peek in on every phone size from 320-430px;
+   padding and type scale down a little with it. Height is left to the
+   content (no forced min/max-height) so nothing clips. Desktop/tablet
+   (>720px) keeps the original clamp(250px, 27vw, 330px) untouched. */
+@media (max-width: 720px) {
+  #what-i-do .wiw-track .cert-card {
+    width: clamp(225px, 75vw, 320px);
+    padding: 26px;
+  }
+  #what-i-do .wiw-track .cert-card .cert-name { font-size: 17px; margin: 8px 0 6px; }
+  #what-i-do .wiw-track .cert-card .cert-issuer { font-size: 13.5px; line-height: 1.55; }
+  #what-i-do .wiw-track .cert-card .field-label { font-size: 10px; margin-bottom: 8px; }
+}
+@media (max-width: 400px) {
+  #what-i-do .wiw-track .cert-card { padding: 24px; }
+}
+
 
 /* 29 — RESEARCH & EXPERIENCE: 3D TIMELINE */
 /* =========================================================
@@ -2311,3 +2346,158 @@ html[data-theme="light"] #what-i-do .wiw-track .cert-card:hover {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .25), 0 0 24px rgba(0, 0, 0, .32), 0 0 6px rgba(0, 0, 0, .35);
 }
 html[data-theme="light"] #what-i-do .wiw-track .cert-card::after { background: rgba(20, 8, 10, .55); }
+
+/* 36 — HERO: SUBTITLE UNDER THE PORTRAIT, FLIPS WITH IT */
+/* The front face now holds the photo AND the subtitle line, so both
+   rotate together on the existing hover / tap flip. The back face
+   covers the same full height. */
+.hero-photo-flip { aspect-ratio: auto; }
+.hero-photo-front { position: relative; inset: auto; }
+.hero-photo-back { position: absolute; inset: 0; }
+.hero-photo-imgbox { position: relative; width: 100%; aspect-ratio: 3 / 4; }
+.hero-photo-imgbox img { width: 100%; height: 100%; }
+.hero-photo-caption {
+  max-width: 100%;
+  margin: 10px 0 0;
+  padding: 0 6px;
+  text-align: center;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .hero-photo-caption { font-size: 13.5px; line-height: 1.55; margin-top: 8px; padding: 0; }
+}
+
+/* 37 — "WHAT I WORK ON": BLACK BORDER, RED GLOW WHEN CLICKED */
+#what-i-do .wiw-track .cert-card { border-color: rgba(0, 0, 0, .85); }
+html[data-theme="light"] #what-i-do .wiw-track .cert-card.is-zoomed,
+#what-i-do .wiw-track .cert-card.is-zoomed {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue), 0 0 22px rgba(229, 9, 20, .55), 0 24px 70px rgba(229, 9, 20, .28);
+}
+
+/* 38 — PROJECT CARDS: BLACK GLOWING BORDER, RED GLOW WHEN CLICKED */
+#projects .case {
+  border-color: rgba(0, 0, 0, .85);
+  box-shadow: 0 0 14px rgba(0, 0, 0, .35);
+  transition: border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+html[data-theme="light"] #projects .case {
+  border-color: rgba(20, 8, 10, .7);
+  box-shadow: 0 0 0 1px rgba(20, 8, 10, .08), 0 0 16px rgba(0, 0, 0, .2), 0 0 4px rgba(0, 0, 0, .22);
+}
+#projects .case:active,
+#projects .case.is-active,
+html[data-theme="light"] #projects .case:active,
+html[data-theme="light"] #projects .case.is-active {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue), 0 0 26px rgba(229, 9, 20, .5), 0 0 60px rgba(229, 9, 20, .18);
+}
+
+/* 39 — "WHAT I WORK ON" IN DARK MODE: WHITE BORDER, RED GLOW WHEN CLICKED
+   (light mode keeps the black border from section 37) */
+html:not([data-theme="light"]) #what-i-do .wiw-track .cert-card {
+  border-color: rgba(255, 255, 255, .8);
+  box-shadow: 0 0 10px rgba(255, 255, 255, .12);
+}
+html:not([data-theme="light"]) #what-i-do .wiw-track .cert-card::after { background: rgba(255, 255, 255, .5); }
+html:not([data-theme="light"]) #what-i-do .wiw-track .cert-card.is-zoomed {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue), 0 0 22px rgba(229, 9, 20, .55), 0 24px 70px rgba(229, 9, 20, .28);
+}
+
+/* 40 — PROJECT DETAILS POPUP: OPEN/CLOSE MOTION, FOCUS, MOBILE FIT */
+.project-modal { transition: opacity .3s ease, visibility .3s ease; }
+.project-modal-card {
+  opacity: 0;
+  transform: scale(.92) translateY(14px);
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), opacity .3s ease;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+.project-modal.active .project-modal-card { opacity: 1; transform: scale(1) translateY(0); }
+.project-modal-actions[hidden] { display: none; }
+
+.modal-close:focus-visible,
+#projects .case-discuss:focus-visible,
+.project-modal-actions a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (max-width: 860px) {
+  .project-modal { padding: 64px 12px 12px; align-items: flex-start; }
+  .project-modal-card,
+  .project-modal-card--wide {
+    width: 100%;
+    max-height: calc(100dvh - 76px);
+    grid-template-columns: 1fr;
+  }
+  .project-modal-body,
+  .project-modal-card--wide .project-modal-body { padding: 22px 18px 26px; }
+  .project-modal-card--wide .project-modal-visual { padding: 18px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-modal, .project-modal-card { transition: opacity .01s; }
+  .project-modal-card { transform: none !important; }
+}
+
+/* 41 — PROJECTS: ONE QUESTION INSTEAD OF PROBLEM/APPROACH/OUTCOME */
+/* The full Problem/Approach/Outcome text and the workflow-step row stay
+   in the DOM (so the existing popup script can still read them) but are
+   not rendered on the card itself — only a single question shows. */
+#projects .case-grid--hidden,
+#projects .case-workflow--hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+/* Flex row: the "?" and the question text are two independent items,
+   so the mark's size/line-height never distorts the text's own
+   line-height, and the mark stays pinned to the first line even when
+   the question wraps onto two or three lines. */
+.case-question {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 20px 0 0;
+  max-width: 58ch;
+}
+.case-question-mark {
+  flex: 0 0 auto;
+  display: block;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.5;          /* matches the text's line-height so the glyph sits inside the same first-line band */
+  color: var(--blue);
+  transform: translateY(-1px); /* optical nudge: a "?" glyph sits slightly high in its own box */
+}
+.case-question-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.5;
+  color: var(--text);
+  letter-spacing: 0;
+}
+/* Where Problem/Approach/Outcome used to sit, give the question room to
+   breathe before the tags/actions row (keeps the card's overall height
+   and rhythm close to the previous three-column layout). */
+#projects .case-bottom { margin-top: 30px; }
+html[data-theme="light"] .case-question-text { color: #1A0B0D; }
+@media (max-width: 720px) {
+  .case-question { gap: 12px; margin-top: 14px; max-width: 100%; }
+  .case-question-mark { font-size: 19px; }
+  .case-question-text { font-size: 16px; }
+  #projects .case-bottom { margin-top: 22px; }
+}

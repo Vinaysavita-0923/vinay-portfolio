@@ -1303,7 +1303,12 @@ function stopEcgMonitor() {
   }
 }
 
-function openProjectModal(caseEl) {
+let projectModalTrigger = null;
+
+function openProjectModal(caseEl, triggerEl) {
+  // Mark the clicked project card (red glowing border) until another one is clicked.
+  document.querySelectorAll('#projects .case.is-active').forEach(c => c.classList.remove('is-active'));
+  caseEl.classList.add('is-active');
   if (!projectModal) return;
 
   const tagText   = caseEl.querySelector('.case-top .tag')?.textContent.trim() || '';
@@ -1311,7 +1316,11 @@ function openProjectModal(caseEl) {
   const title     = caseEl.querySelector('h3')?.textContent.trim() || '';
   const fields    = Array.from(caseEl.querySelectorAll('.case-grid > div'));
   const tags      = Array.from(caseEl.querySelectorAll('.tech-tag')).map(t => t.outerHTML);
-  const actions   = Array.from(caseEl.querySelectorAll('.case-actions a')).map(a => a.outerHTML);
+  // Only the research-paper link is carried into the popup, and only when it
+  // has a real destination. "Discuss This Project" stays on the card only.
+  const actions   = Array.from(caseEl.querySelectorAll('.case-actions a.case-paper-link'))
+    .filter(a => { const h = (a.getAttribute('href') || '').trim(); return h && h !== '#'; })
+    .map(a => a.outerHTML);
   const visualType = caseEl.dataset.visualType;
 
   projectModalEyebrow.textContent = [idText, tagText].filter(Boolean).join(' · ');
@@ -1353,36 +1362,76 @@ function openProjectModal(caseEl) {
 
   projectModalTags.innerHTML = tags.join('');
   projectModalActions.innerHTML = actions.join('');
+  projectModalActions.hidden = actions.length === 0;
+
+  // Remember what opened the popup so focus can return to it on close.
+  projectModalTrigger = triggerEl || caseEl;
+  projectModal.scrollTop = 0;
+  if (projectModalCard) projectModalCard.scrollTop = 0;
 
   projectModal.classList.add('active');
   projectModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+  const closeBtn = document.getElementById('projectModalClose');
+  if (closeBtn) setTimeout(() => { if (projectModal.classList.contains('active')) closeBtn.focus({ preventScroll: true }); }, 120);
 }
 
 function closeProjectModal() {
   if (!projectModal) return;
   stopEegMonitor();
   stopEcgMonitor();
+  if (!projectModal.classList.contains('active')) return;
   projectModal.classList.remove('active');
   projectModal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+  if (projectModalTrigger && document.contains(projectModalTrigger)) {
+    projectModalTrigger.focus({ preventScroll: true });
+  }
+  projectModalTrigger = null;
 }
 
 document.querySelectorAll('#projects .case').forEach(caseEl => {
+  // Clicking the card body still opens the details (existing behaviour).
   caseEl.addEventListener('click', (event) => {
-    if (event.target.closest('a')) return; // let paper/discuss links behave normally
+    if (event.target.closest('a')) return; // links handle themselves
     openProjectModal(caseEl);
   });
+
+  // "Discuss This Project" opens this card's details popup.
+  const discussBtn = caseEl.querySelector('.case-discuss');
+  if (discussBtn) {
+    discussBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openProjectModal(caseEl, discussBtn);
+    });
+    discussBtn.addEventListener('keydown', (event) => {
+      if (event.key === ' ') { event.preventDefault(); openProjectModal(caseEl, discussBtn); }
+    });
+  }
 });
 
 if (projectModal) {
+  const closeBtn = document.getElementById('projectModalClose');
+  if (closeBtn) closeBtn.addEventListener('click', closeProjectModal);
+
   projectModal.addEventListener('click', (event) => {
     if (event.target === projectModal) closeProjectModal();
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && projectModal.classList.contains('active')) {
-      closeProjectModal();
+    if (!projectModal.classList.contains('active')) return;
+    if (event.key === 'Escape') { closeProjectModal(); return; }
+    // Keep keyboard focus inside the dialog while it is open.
+    if (event.key === 'Tab') {
+      const focusables = Array.from(projectModal.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])'))
+        .filter(el => !el.closest('[hidden]') && el.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     }
   });
 }
