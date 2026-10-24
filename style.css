@@ -72,7 +72,7 @@ QUICK EDIT:
   --body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --mono: 'Inter', ui-monospace, SFMono-Regular, Menlo, monospace;
   /* EDIT: Maximum content width */
-  --max: 1640px;
+  --max: 1920px;
 }
 
 /* 02 — GLOBAL RESET / BASE STYLES */
@@ -81,7 +81,7 @@ html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--body); line-height: 1.6; }
 a { color: inherit; text-decoration: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
-.wrap { width: min(var(--max), calc(100% - clamp(32px, 4vw, 72px))); margin-inline: auto; }
+.wrap { width: min(var(--max), calc(100% - clamp(16px, 1.5vw, 32px))); margin-inline: auto; }
 .mono { font-family: var(--mono); letter-spacing: 0.03em; }
 
 /* 03 — HEADER / NAVIGATION */
@@ -308,18 +308,21 @@ h1 em { color: var(--blue); font-style: normal; }
 h2 { margin: 0; font-size: clamp(32px, 4.5vw, 48px); line-height: 1.05; letter-spacing: .01em; }
 .section-intro { margin: 15px 0 0; color: var(--muted); max-width: 640px; }
 .case-list { border-top: 1px solid var(--border); }
-.case { padding: 38px 0 34px; border-bottom: 1px solid var(--border); transition: background .2s; }
+.case { padding: 42px 0 38px; border-bottom: 1px solid var(--border); transition: background .2s; }
 .case:hover { background: var(--surface); }
 .case-top, .case-bottom { display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; color: var(--muted); font-size: 11px; letter-spacing: .05em; font-weight: 600; }
 .tag { color: var(--blue); }
-.case h3 { margin: 17px 0 27px; max-width: 820px; font-size: clamp(26px, 3.5vw, 38px); line-height: 1.1; font-weight: 400; }
-.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-.field-label { display: block; margin-bottom: 8px; color: var(--muted); font-size: 11px; letter-spacing: .06em; font-weight: 700; }
-.case-grid p { margin: 0; color: #d2d2d2; font-size: 14px; line-height: 1.7; }
+.case h3 { margin: 18px 0 28px; max-width: 820px; font-size: clamp(26px, 3.5vw, 38px); line-height: 1.15; font-weight: 400; }
+.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.field-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: var(--muted); font-size: 11px; letter-spacing: .07em; font-weight: 700; }
+.field-label::before { content: ''; width: 14px; height: 2px; flex-shrink: 0; background: var(--blue); }
+.case-grid p { margin: 0; color: #d2d2d2; font-size: 14.5px; line-height: 1.75; }
 .edit-field { color: var(--blue); font-family: var(--mono); font-size: 11px; font-weight: 700; }
-.case-bottom { margin-top: 30px; padding-top: 17px; border-top: 1px solid var(--border); }
-.case-bottom a { color: var(--text); font-weight: 700; }
+.case-bottom { margin-top: 32px; padding-top: 18px; border-top: 1px solid var(--border); row-gap: 14px; }
+.case-bottom a { display: inline-flex; align-items: center; gap: 6px; color: var(--text); font-weight: 700; transition: color .2s ease; }
 .case-bottom a:hover { color: var(--blue); }
+.case-bottom a .arrow { display: inline-block; transition: transform .2s ease; }
+.case-bottom a:hover .arrow { transform: translateX(3px); }
 .case-actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
 .case-paper-link {
   display: inline-flex;
@@ -335,6 +338,49 @@ h2 { margin: 0; font-size: clamp(32px, 4.5vw, 48px); line-height: 1.05; letter-s
   background: rgba(229,9,20,.08);
 }
 
+/* Technology badges — compact, dark, subtle red accent on hover */
+.tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: border-color .2s ease, color .2s ease;
+}
+.case:hover .tech-tag { border-color: rgba(229,9,20,.35); color: var(--text); }
+
+/* Compact research workflow strip */
+.case-workflow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px dashed var(--border);
+}
+.case-workflow .flow-step {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  transition: border-color .2s ease, color .2s ease;
+}
+.case:hover .case-workflow .flow-step { color: var(--text); }
+.case-workflow .flow-arrow { color: var(--blue); font-weight: 700; font-size: 12px; }
+
 /* 08 — ABOUT SECTION */
 .about-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 70px; align-items: start; }
 .about-lead { margin: 0; font-family: var(--display); font-size: clamp(24px, 3.5vw, 34px); line-height: 1.25; font-weight: 400; }
@@ -344,6 +390,33 @@ h2 { margin: 0; font-size: clamp(32px, 4.5vw, 48px); line-height: 1.05; letter-s
 .spec-row:last-child { border-bottom: 0; }
 .spec-row span { color: var(--muted); font-weight: 600; }
 .spec-row b { text-align: right; color: var(--text); font-weight: 700; }
+
+/* 08b — SKILLS GRID (icon chips) */
+.skills-groups { display: flex; flex-direction: column; gap: 30px; }
+.skill-group-label { margin: 0 0 14px; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; }
+.skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+.skill-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 20px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-align: center;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.skill-chip:hover, .skill-chip:focus-visible { transform: translateY(-3px); border-color: var(--blue); }
+.skill-icon { width: 28px; height: 28px; flex-shrink: 0; color: var(--text); fill: currentColor; transition: color .2s ease, transform .2s ease; }
+.skill-icon--line { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.skill-chip:hover .skill-icon, .skill-chip:focus-visible .skill-icon { color: var(--blue); transform: scale(1.1); }
+.skill-chip span { font-size: 12px; font-weight: 600; color: var(--text); font-family: var(--body); transition: color .2s ease; }
+.skill-chip:hover span, .skill-chip:focus-visible span { color: var(--blue); }
 
 /* 09 — CONTACT SECTION */
 .contact h2 { max-width: 700px; }
@@ -571,14 +644,16 @@ h2 { margin: 0; font-size: clamp(32px, 4.5vw, 48px); line-height: 1.05; letter-s
   justify-content: center;
   align-items: center;
   gap: 5px;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 4px;
   cursor: pointer;
   flex-shrink: 0;
+  transition: border-color .2s ease, background .2s ease;
 }
+.nav-toggle:hover, .nav-toggle:focus-visible { border-color: var(--text); background: rgba(255,255,255,.06); }
 .nav-toggle span { width: 18px; height: 2px; background: var(--text); transition: transform .25s ease, opacity .2s ease; }
 .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
@@ -603,13 +678,14 @@ nav#primaryNav {
   right: 0;
   height: 100vh;
   width: min(78vw, 340px);
-  background: var(--surface);
+  background: var(--surface-2);
   border-left: 1px solid var(--border);
+  box-shadow: -24px 0 60px rgba(0,0,0,.45);
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 4px;
-  padding: 90px 30px 30px;
+  padding: 90px 30px calc(30px + env(safe-area-inset-bottom, 0px));
   transform: translateX(100%);
   transition: transform .3s ease;
   z-index: 50;
@@ -617,7 +693,10 @@ nav#primaryNav {
   row-gap: 0;
 }
 nav#primaryNav.nav-open { transform: translateX(0); }
-nav#primaryNav a { width: 100%; padding: 13px 0; border-bottom: 1px solid var(--border); font-size: 16px; flex: none; white-space: normal; }
+nav#primaryNav a { position: relative; width: 100%; padding: 13px 0 13px 14px; border-bottom: 1px solid var(--border); font-size: 16px; flex: none; white-space: normal; transition: color .2s ease; }
+nav#primaryNav a::before { content: ''; position: absolute; left: 0; top: 50%; translate: 0 -50%; width: 3px; height: 0; background: var(--blue); transition: height .2s ease; }
+nav#primaryNav a:hover, nav#primaryNav a.nav-link-active { color: var(--text); }
+nav#primaryNav a.nav-link-active::before { height: 60%; }
 nav#primaryNav .nav-cta { width: 100%; text-align: center; margin-top: 12px; border-bottom: none; }
 
 /* Photo now stays stacked below the logo at every width — see
@@ -632,7 +711,7 @@ html[data-theme="light"] {
   --surface-2: #F0F0F0;
   --border: #E2E2E2;
   --text: #141414;
-  --muted: #555555;
+  --muted: #3C3C3C;
   --blue: #E50914;
   --amber: #E50914;
 }
@@ -851,6 +930,308 @@ html[data-theme="light"] * { text-shadow: none; }
   .modal-close {
     transition: none !important;
   }
+}
+
+/* 19b — SKILL DETAIL MODAL */
+.skill-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, .7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+.skill-modal.active { opacity: 1; visibility: visible; pointer-events: auto; }
+.skill-modal-card {
+  width: min(92vw, 540px);
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  padding: 44px 38px 38px;
+  text-align: left;
+  box-shadow: 0 0 0 1px var(--blue), 0 0 40px rgba(229, 9, 20, .35), 0 30px 100px rgba(0, 0, 0, .5);
+  transform: scale(.94) translateY(8px);
+  transition: transform .25s ease;
+}
+.skill-modal.active .skill-modal-card { transform: scale(1) translateY(0); }
+.skill-modal-icon { width: 46px; height: 46px; margin-bottom: 20px; color: var(--blue); }
+.skill-modal-icon svg { width: 100%; height: 100%; fill: currentColor; }
+.skill-modal-icon svg.skill-icon--line { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.skill-modal-title { margin: 0 0 14px; font-family: var(--display); font-size: 34px; font-weight: 400; letter-spacing: .02em; color: var(--text); }
+.skill-modal-desc { margin: 0 0 20px; color: var(--text); font-size: 17px; line-height: 1.65; }
+.skill-modal-points { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.skill-modal-points li { position: relative; padding-left: 22px; color: var(--text); font-size: 15px; line-height: 1.6; }
+.skill-modal-points li::before { content: ''; position: absolute; left: 0; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+
+@media (max-width: 480px) {
+  .skill-modal-card { padding: 28px 22px 22px; }
+}
+
+/* 19c — PROJECT DETAIL MODAL */
+#projects .case { cursor: pointer; }
+.project-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, .75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+.project-modal.active { opacity: 1; visibility: visible; pointer-events: auto; }
+.project-modal-card {
+  width: min(94vw, 920px);
+  max-height: 88vh;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--blue), 0 0 50px rgba(229, 9, 20, .35), 0 30px 100px rgba(0, 0, 0, .55);
+  transform: scale(.94) translateY(8px);
+  transition: transform .25s ease;
+}
+.project-modal.active .project-modal-card { transform: scale(1) translateY(0); }
+
+.project-modal-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 30px 20px;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+.project-modal-visual-label { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.project-modal-graphic { width: 100%; display: flex; align-items: center; justify-content: center; }
+
+.project-waveform { width: 100%; max-width: 220px; overflow: visible; }
+.project-waveform path {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(229, 9, 20, .6));
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: project-waveform-draw 2.6s ease-in-out infinite;
+}
+@keyframes project-waveform-draw {
+  0% { stroke-dashoffset: 600; }
+  60% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -600; }
+}
+
+/* Brain-connectivity graphic (used for EEG-based projects) */
+.project-network { width: 100%; max-width: 190px; overflow: visible; }
+.project-network-lines line {
+  stroke: var(--blue);
+  stroke-width: 1;
+  animation: project-line-pulse 3s ease-in-out infinite;
+}
+.project-network-lines line:nth-child(4n) { animation-delay: .3s; }
+.project-network-lines line:nth-child(4n+1) { animation-delay: .9s; }
+.project-network-lines line:nth-child(4n+2) { animation-delay: 1.5s; }
+.project-network-lines line:nth-child(4n+3) { animation-delay: 2.1s; }
+.project-network circle {
+  fill: var(--blue);
+  filter: drop-shadow(0 0 5px rgba(229, 9, 20, .75));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: project-node-pulse 2.4s ease-in-out infinite;
+}
+.project-network-nodes circle:nth-child(3n) { animation-delay: .5s; }
+.project-network-nodes circle:nth-child(3n+1) { animation-delay: 1s; }
+@keyframes project-node-pulse {
+  0%, 100% { opacity: .55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+/* Real EEG visualization image with an animated scanning sweep */
+.project-modal-image-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid var(--blue);
+  box-shadow: 0 0 20px rgba(229, 9, 20, .3);
+}
+.project-modal-image-wrap img { display: block; width: 100%; height: auto; }
+.project-modal-scan {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40%;
+  top: -40%;
+  background: linear-gradient(180deg, transparent, rgba(229, 9, 20, .35), transparent);
+  pointer-events: none;
+  animation: project-scan-sweep 3.2s ease-in-out infinite;
+}
+@keyframes project-scan-sweep {
+  0% { top: -40%; }
+  100% { top: 100%; }
+}
+@keyframes project-line-pulse {
+  0%, 100% { opacity: .2; }
+  50% { opacity: .75; }
+}
+
+/* Rich "live" EEG monitor visual: glowing brain + animated multi-channel trace panel */
+.project-modal-card--wide { grid-template-columns: 340px 1fr; width: min(96vw, 1040px); max-height: 94vh; }
+.project-modal-card--wide .project-modal-visual { padding: 14px 16px; gap: 10px; }
+.eeg-visual { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+
+.eeg-brain-stage { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px 6px 0; }
+.eeg-brain-halo {
+  position: absolute;
+  width: min(92%, 250px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 49, 58, .18);
+  border-radius: 50%;
+  box-shadow: 0 0 50px rgba(255, 0, 18, .1), inset 0 0 50px rgba(255, 0, 18, .05);
+  animation: eeg-halo 8s linear infinite;
+}
+.eeg-brain-halo::before, .eeg-brain-halo::after {
+  content: '';
+  position: absolute; inset: 9%;
+  border: 1px solid rgba(255, 74, 81, .18);
+  border-radius: 50%;
+}
+.eeg-brain-halo::after { inset: 19%; border-style: dashed; animation: eeg-halo 22s linear infinite reverse; }
+.eeg-brain-art-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1.08;
+  overflow: hidden;
+  border-radius: 8px;
+  z-index: 1;
+  filter: drop-shadow(0 0 16px rgba(255, 24, 38, .3));
+  animation: eeg-brainFloat 6s ease-in-out infinite, eeg-brainGlow 4.2s ease-in-out infinite;
+}
+.eeg-brain-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0% 50%;
+}
+@keyframes eeg-brainFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.01); }
+}
+@keyframes eeg-brainGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 24, 38, .22)); }
+  50% { filter: drop-shadow(0 0 22px rgba(255, 35, 48, .4)); }
+}
+@keyframes eeg-halo { to { transform: rotate(360deg); } }
+.eeg-brain-label {
+  margin-top: 8px;
+  color: rgba(255, 178, 180, .85);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.eeg-brain-label span { color: var(--blue); margin-right: 7px; }
+
+.eeg-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 82, 89, .35);
+  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(18, 12, 14, .91), rgba(8, 7, 8, .87));
+  box-shadow: 0 0 40px rgba(145, 0, 12, .12);
+  padding: 12px 12px;
+}
+.eeg-panel::before {
+  content: '';
+  position: absolute; left: -20%; top: 0; width: 140%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 72, 80, .7), transparent);
+  animation: eeg-scanTop 5s ease-in-out infinite;
+}
+@keyframes eeg-scanTop {
+  0%, 100% { transform: translateX(-18%); opacity: .25; }
+  50% { transform: translateX(18%); opacity: .9; }
+}
+.eeg-panel-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.eeg-eyebrow { color: #8f8588; font-size: 8px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 4px; }
+.eeg-title { margin: 0; font-family: var(--display); font-size: 16px; font-weight: 400; letter-spacing: .02em; color: var(--text); }
+.eeg-live {
+  display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
+  color: #ff777c; border: 1px solid rgba(255, 70, 78, .35); border-radius: 100px;
+  padding: 4px 8px; font-size: 8px; letter-spacing: .08em;
+}
+.eeg-live-dot { width: 4px; height: 4px; background: #ff3943; border-radius: 50%; box-shadow: 0 0 8px #ff3943; animation: eeg-nodePulse 1s infinite; }
+@keyframes eeg-nodePulse { 0%, 100% { opacity: .6; transform: scale(.85); } 50% { opacity: 1; transform: scale(1.15); } }
+.eeg-channels { display: grid; gap: 0; }
+.eeg-channel {
+  display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: center;
+  min-height: 20px; border-top: 1px solid rgba(255,255,255,.06);
+}
+.eeg-channel-label { color: #b6aaad; font-size: 8px; letter-spacing: .04em; }
+.eeg-trace {
+  width: 100%; height: 16px; display: block; overflow: visible;
+  background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 100% 8px;
+  border-left: 1px solid rgba(255, 80, 86, .2);
+}
+.eeg-trace path { fill: none; stroke: #ff646b; stroke-width: 1.1; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 2px rgba(255, 40, 50, .5)); }
+.eeg-trace path.secondary { stroke: rgba(255, 102, 108, .45); stroke-width: .6; }
+.eeg-time-axis { margin: 5px 0 0 26px; display: flex; justify-content: space-between; color: #766d70; font-size: 8px; }
+.eeg-panel-footer {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  margin-top: 8px; padding-top: 7px; border-top: 1px solid rgba(255,255,255,.07);
+  color: #8d8285; font-size: 8px; letter-spacing: .05em;
+}
+.eeg-status { display: flex; align-items: center; gap: 6px; }
+.eeg-status::before { content: ''; width: 5px; height: 5px; background: #ff3943; border-radius: 50%; box-shadow: 0 0 8px #ff3943; }
+
+@media (max-width: 720px) {
+  .project-modal-card--wide { grid-template-columns: 1fr; }
+}
+
+.project-modal-body { padding: 38px 36px; }
+.project-modal-card--wide .project-modal-body { padding: 24px 28px; }
+.project-modal-eyebrow { margin: 0 0 10px; color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+.project-modal-title { margin: 0 0 24px; font-family: var(--display); font-size: 28px; font-weight: 400; line-height: 1.15; letter-spacing: .01em; color: var(--text); }
+.project-modal-card--wide .project-modal-title { margin: 0 0 16px; font-size: 23px; }
+.project-modal-fields { display: flex; flex-direction: column; gap: 18px; margin-bottom: 22px; }
+.project-modal-card--wide .project-modal-fields { gap: 12px; margin-bottom: 14px; }
+.project-modal-fields p { margin: 0; color: #d2d2d2; font-size: 14px; line-height: 1.7; }
+.project-modal-card--wide .project-modal-fields p { font-size: 13px; line-height: 1.55; }
+.project-modal-actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+.project-modal-card--wide .project-modal-actions { margin-top: 14px; padding-top: 14px; }
+
+@media (max-width: 720px) {
+  .project-modal-card { grid-template-columns: 1fr; }
+  .project-modal-visual { border-right: 0; border-bottom: 1px solid var(--border); padding: 24px 20px; }
+  .project-modal-body { padding: 28px 24px; }
 }
 
 /* 20 — PERSISTENT STARFIELD */
@@ -1184,6 +1565,10 @@ body.intro-active { overflow: hidden; }
 /* Philosophy section (added) */
 .philosophy { position: relative; padding-block: 110px; overflow: hidden; }
 .philosophy-bg { position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(229,9,20,.14) 0%, transparent 45%), radial-gradient(circle at 80% 70%, rgba(229,9,20,.10) 0%, transparent 50%), repeating-linear-gradient(0deg, transparent 0 39px, var(--border) 39px 40px), repeating-linear-gradient(90deg, transparent 0 39px, var(--border) 39px 40px); opacity: .5; }
+html[data-theme="light"] .philosophy-bg {
+  background: repeating-linear-gradient(0deg, transparent 0 39px, var(--border) 39px 40px), repeating-linear-gradient(90deg, transparent 0 39px, var(--border) 39px 40px);
+  opacity: .6;
+}
 .philosophy-inner { position: relative; z-index: 2; text-align: center; }
 .philosophy-text { font-family: var(--display); font-weight: 400; font-size: clamp(20px, 3.2vw, 36px); line-height: 1.3; max-width: 860px; margin: 20px auto 0; color: var(--text); }
 
@@ -1282,6 +1667,7 @@ html[data-theme="light"] .kn-ripple {
 
 /* Main content cards/panels */
 .spec-card,
+.skill-chip,
 .cert-card,
 .case,
 #editing .edit-card,
@@ -1291,6 +1677,7 @@ html[data-theme="light"] .kn-ripple {
 
 /* Hover states should not create opaque rectangles */
 .case:hover,
+.skill-chip:hover,
 .cert-card:hover,
 #editing .edit-card:hover,
 .connect-card:hover {
@@ -1299,6 +1686,7 @@ html[data-theme="light"] .kn-ripple {
 
 /* Keep borders, but let the animated page background show through */
 .spec-card,
+.skill-chip,
 .cert-card,
 .case,
 #editing .edit-card,
@@ -1338,6 +1726,7 @@ html[data-theme="light"] .kn-ripple {
 
 /* Light mode: content blocks remain transparent too */
 html[data-theme="light"] .spec-card,
+html[data-theme="light"] .skill-chip,
 html[data-theme="light"] .cert-card,
 html[data-theme="light"] .case,
 html[data-theme="light"] #editing .edit-card,
@@ -1346,6 +1735,7 @@ html[data-theme="light"] .connect-card {
 }
 
 html[data-theme="light"] .case:hover,
+html[data-theme="light"] .skill-chip:hover,
 html[data-theme="light"] .cert-card:hover,
 html[data-theme="light"] #editing .edit-card:hover,
 html[data-theme="light"] .connect-card:hover {

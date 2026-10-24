@@ -462,6 +462,31 @@ if (navToggle && primaryNav && navBackdrop) {
     }
   });
 
+  // Highlight the nav link for whichever section is currently in view,
+  // so the drawer shows you where you are on the page, not just a
+  // flat link list.
+  const navLinks = Array.from(primaryNav.querySelectorAll('a[href^="#"]'));
+  const sections = navLinks
+    .map(link => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+  if (sections.length) {
+    const setActive = (id) => {
+      navLinks.forEach(link => {
+        link.classList.toggle('nav-link-active', link.getAttribute('href') === `#${id}`);
+      });
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+
+    sections.forEach(section => sectionObserver.observe(section));
+  }
+
 }
 
 
@@ -767,6 +792,480 @@ document.addEventListener(
 
   }
 );
+
+
+/* =========================================================
+   SKILL DETAIL MODAL
+   ========================================================= */
+
+const SKILL_INFO = {
+  python: {
+    title: 'Python',
+    desc: "A general-purpose, readable programming language — the primary language used for machine learning, data analysis, and automation.",
+    points: [
+      'Huge ecosystem of ML/DL libraries: NumPy, Pandas, PyTorch, TensorFlow, Scikit-learn',
+      'Fast to prototype and iterate on experiments',
+      'Used here for data preprocessing, model training, and scripting'
+    ]
+  },
+  cpp: {
+    title: 'C++',
+    desc: 'A fast, compiled, low-level language used when performance and direct memory control matter.',
+    points: [
+      'Used in coursework for data structures and algorithms',
+      'Builds a foundation for understanding how ML frameworks work under the hood',
+      'Useful for performance-critical and embedded/signal-processing tasks'
+    ]
+  },
+  html5: {
+    title: 'HTML5',
+    desc: 'The markup language used to structure content on the web — the backbone of every page on this site.',
+    points: [
+      'Used to build this entire portfolio from scratch',
+      'Semantic structure for accessibility and SEO',
+      'Pairs with CSS and JavaScript for full front-end control'
+    ]
+  },
+  css3: {
+    title: 'CSS3',
+    desc: 'The styling language used to control layout, color, animation, and responsiveness.',
+    points: [
+      "Used for this site's dark/light themes, animations, and responsive layout",
+      'Flexbox and Grid for layout, custom properties for theming',
+      'No CSS framework — hand-written for full control'
+    ]
+  },
+  'scikit-learn': {
+    title: 'Scikit-learn',
+    desc: 'A Python library for classical machine learning — classification, regression, clustering, and model evaluation.',
+    points: [
+      'Used for baseline ML models and evaluation metrics',
+      'A simple, consistent API across many algorithms',
+      'Good for quick experimentation before moving to deep learning'
+    ]
+  },
+  pytorch: {
+    title: 'PyTorch',
+    desc: 'A deep learning framework used to build, train, and debug neural networks with a flexible, Pythonic API.',
+    points: [
+      'Used for building hybrid deep learning models, e.g. ECG arrhythmia detection',
+      'Dynamic computation graph makes debugging and experimentation easier',
+      'Widely used in research, so most papers/code are reproducible in it'
+    ]
+  },
+  tensorflow: {
+    title: 'TensorFlow',
+    desc: 'A deep learning framework built for both research and production-scale deployment of ML models.',
+    points: [
+      'Used alongside PyTorch to compare model architectures',
+      'Strong tooling for deployment and production pipelines',
+      'The Keras API makes building standard architectures fast'
+    ]
+  },
+  numpy: {
+    title: 'NumPy',
+    desc: 'The core numerical computing library in Python — fast array operations that nearly every ML tool is built on.',
+    points: [
+      'Used for the array/matrix math underlying model and signal-processing code',
+      'Vectorized operations are far faster than plain Python loops',
+      'The foundation that Pandas, Scikit-learn, and PyTorch build on'
+    ]
+  },
+  pandas: {
+    title: 'Pandas',
+    desc: 'A data-analysis library for loading, cleaning, and exploring tabular and time-series data.',
+    points: [
+      'Used to clean and structure datasets before training models',
+      'The DataFrame API makes filtering, grouping, and merging data straightforward',
+      'A key tool for exploratory data analysis (EDA)'
+    ]
+  },
+  matplotlib: {
+    title: 'Matplotlib',
+    desc: 'A plotting library used to visualize data, training curves, and model results.',
+    points: [
+      'Used to plot signals (e.g. ECG waveforms), metrics, and confusion matrices',
+      "Visualizing results is essential for debugging and explaining a model's behavior",
+      'Works directly with NumPy and Pandas data structures'
+    ]
+  },
+  anaconda: {
+    title: 'Anaconda',
+    desc: 'A Python distribution and environment manager used to keep ML projects and their dependencies isolated and reproducible.',
+    points: [
+      'Used to manage separate environments per project',
+      'Avoids dependency conflicts between different libraries and versions',
+      'Bundles common data-science packages out of the box'
+    ]
+  },
+  git: {
+    title: 'Git',
+    desc: "A version control system used to track changes to code and collaborate without overwriting each other's work.",
+    points: [
+      'Used to version this portfolio and other project repositories',
+      'Enables branching, experimentation, and safe rollbacks',
+      'Works with GitHub for collaboration and hosting'
+    ]
+  },
+  jupyter: {
+    title: 'Jupyter',
+    desc: 'An interactive notebook environment for writing and running code alongside notes, plots, and results.',
+    points: [
+      'Used for exploratory data analysis and model prototyping',
+      'Code runs in cells with output and plots shown immediately',
+      "Documents an experiment's reasoning alongside the code"
+    ]
+  },
+  'google-colab': {
+    title: 'Google Colab',
+    desc: 'A free, cloud-hosted Jupyter notebook environment with GPU/TPU access.',
+    points: [
+      'Used to train models without needing a local GPU',
+      'Easy to share notebooks and reproduce experiments',
+      'Good for running heavier deep-learning training jobs'
+    ]
+  },
+  vscode: {
+    title: 'VS Code',
+    desc: 'A lightweight, extensible code editor used for most day-to-day development.',
+    points: [
+      'The primary editor for this portfolio and other projects',
+      'Extensions for Python, linting, Git, and live previews speed up development',
+      'An integrated terminal keeps the whole workflow in one place'
+    ]
+  },
+  'power-bi': {
+    title: 'Power BI',
+    desc: 'A business-intelligence tool used to build interactive dashboards and visualize data for decision-making.',
+    points: [
+      'Used to turn raw datasets into interactive, shareable dashboards',
+      'Useful for communicating results to non-technical audiences',
+      'Complements Python-based analysis with polished reporting'
+    ]
+  },
+  'explainable-ai': {
+    title: 'Explainable AI',
+    desc: "Techniques that make a machine learning model's predictions understandable to humans, instead of treating it as a black box.",
+    points: [
+      'A core focus of the ECG arrhythmia detection and similar classification work',
+      'Builds trust by showing why a model made a decision, not just the output',
+      'Important in high-stakes domains like healthcare diagnostics'
+    ]
+  },
+  qml: {
+    title: 'Quantum Machine Learning (QML)',
+    desc: 'An emerging field that combines quantum computing with machine learning to explore new ways of processing data.',
+    points: [
+      'Explored as a research interest alongside classical ML',
+      'Investigates whether quantum circuits can speed up or improve certain ML tasks',
+      'Still largely experimental, but a promising area to build early expertise in'
+    ]
+  },
+  'signal-processing': {
+    title: 'Signal Processing',
+    desc: 'Techniques for analyzing and transforming signals, such as biomedical waveforms, to extract meaningful information.',
+    points: [
+      'Used to preprocess ECG signals before feeding them into ML models',
+      'Filtering and feature extraction improve model accuracy and robustness',
+      'Bridges an electronics/communication background with ML work'
+    ]
+  },
+  'ai-agents': {
+    title: 'AI Agents',
+    desc: 'Systems that use LLMs and automation to perform multi-step tasks autonomously, rather than just answering a single prompt.',
+    points: [
+      'Explored for building automated workflows and tools',
+      'Combines reasoning, tool use, and memory to complete tasks',
+      'A fast-growing area connecting traditional ML with modern LLM-based systems'
+    ]
+  },
+  'web-development': {
+    title: 'Web Development',
+    desc: 'Building and shipping real, usable interfaces — like this portfolio — instead of keeping work stuck in notebooks.',
+    points: [
+      'Used to design and build this entire site: HTML, CSS, and JavaScript',
+      'Turns ML and research work into something people can actually interact with',
+      'Covers front-end structure, styling, responsiveness, and interactivity'
+    ]
+  }
+};
+
+const skillModal       = document.getElementById('skillModal');
+const skillModalIcon   = document.getElementById('skillModalIcon');
+const skillModalTitle  = document.getElementById('skillModalTitle');
+const skillModalDesc   = document.getElementById('skillModalDesc');
+const skillModalPoints = document.getElementById('skillModalPoints');
+
+function openSkillModal(key, iconHTML) {
+  const data = SKILL_INFO[key];
+  if (!data || !skillModal) return;
+
+  if (skillModalIcon) skillModalIcon.innerHTML = iconHTML || '';
+  skillModalTitle.textContent = data.title;
+  skillModalDesc.textContent = data.desc;
+  skillModalPoints.innerHTML = data.points.map(p => `<li>${p}</li>`).join('');
+
+  skillModal.classList.add('active');
+  skillModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSkillModal() {
+  if (!skillModal) return;
+  skillModal.classList.remove('active');
+  skillModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.skill-chip[data-skill]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const svg = chip.querySelector('svg');
+    openSkillModal(chip.dataset.skill, svg ? svg.outerHTML : '');
+  });
+});
+
+if (skillModal) {
+  skillModal.addEventListener('click', (event) => {
+    if (event.target === skillModal) closeSkillModal();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && skillModal.classList.contains('active')) {
+      closeSkillModal();
+    }
+  });
+}
+
+/* =========================================================
+   PROJECT DETAIL MODAL
+   Reads its content straight from the clicked project card
+   (title, Problem/Approach/Outcome, tech tags, action links)
+   instead of duplicating it in JS, so the two stay in sync.
+   ========================================================= */
+
+const projectModal          = document.getElementById('projectModal');
+const projectModalCard      = document.getElementById('projectModalCard');
+const projectModalGraphic   = document.getElementById('projectModalGraphic');
+const projectModalVisual    = document.getElementById('projectModalVisualLabel');
+const projectModalEyebrow   = document.getElementById('projectModalEyebrow');
+const projectModalTitle     = document.getElementById('projectModalTitle');
+const projectModalFields    = document.getElementById('projectModalFields');
+const projectModalTags      = document.getElementById('projectModalTags');
+const projectModalActions   = document.getElementById('projectModalActions');
+
+// Pulse waveform for signal-based (ECG) projects.
+const PROJECT_GRAPHIC_PULSE = `
+  <svg class="project-waveform" viewBox="0 0 220 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,30 L55,30 L65,8 L75,52 L85,30 L120,30 L128,16 L136,44 L144,30 L220,30" />
+  </svg>
+`;
+
+// Brain-connectivity graphic for EEG-based projects: a small network
+// of nodes and connecting lines instead of a pulse waveform.
+const PROJECT_GRAPHIC_NETWORK = `
+  <svg class="project-network" viewBox="0 0 160 140" aria-hidden="true">
+    <g class="project-network-lines">
+      <line x1="30" y1="30" x2="80" y2="20"/>
+      <line x1="80" y1="20" x2="130" y2="40"/>
+      <line x1="30" y1="30" x2="50" y2="70"/>
+      <line x1="50" y1="70" x2="80" y2="20"/>
+      <line x1="50" y1="70" x2="100" y2="80"/>
+      <line x1="80" y1="20" x2="100" y2="80"/>
+      <line x1="100" y1="80" x2="130" y2="40"/>
+      <line x1="50" y1="70" x2="40" y2="110"/>
+      <line x1="100" y1="80" x2="110" y2="115"/>
+      <line x1="40" y1="110" x2="110" y2="115"/>
+      <line x1="130" y1="40" x2="140" y2="90"/>
+      <line x1="100" y1="80" x2="140" y2="90"/>
+    </g>
+    <g class="project-network-nodes">
+      <circle cx="30" cy="30" r="4"/>
+      <circle cx="80" cy="20" r="5"/>
+      <circle cx="130" cy="40" r="4"/>
+      <circle cx="50" cy="70" r="5"/>
+      <circle cx="100" cy="80" r="4"/>
+      <circle cx="40" cy="110" r="3.5"/>
+      <circle cx="110" cy="115" r="4"/>
+      <circle cx="140" cy="90" r="3.5"/>
+    </g>
+  </svg>
+`;
+
+// Rich "live" EEG visual: glowing brain art + an animated 8-channel
+// waveform monitor, built and redrawn on a requestAnimationFrame loop
+// only while this project's modal is open.
+const EEG_CHANNEL_NAMES = ['Fp1', 'Fp2', 'F7', 'F8', 'T3', 'T4', 'O1', 'O2'];
+let eegMonitorRAF = null;
+let eegMonitorFrame = 0;
+
+function eegGraphicHTML(imgSrc, label) {
+  return `
+    <div class="eeg-visual">
+      <div class="eeg-brain-stage">
+        <div class="eeg-brain-halo"></div>
+        <div class="eeg-brain-art-wrap">
+          <img class="eeg-brain-art" src="${imgSrc}" alt="${label}" loading="lazy">
+        </div>
+        <p class="eeg-brain-label"><span>●</span>NEURAL ACTIVITY / VISUALIZATION</p>
+      </div>
+      <div class="eeg-panel">
+        <div class="eeg-panel-header">
+          <div>
+            <p class="eeg-eyebrow">Neuro-signal monitoring</p>
+            <h4 class="eeg-title">EEG Signal</h4>
+          </div>
+          <span class="eeg-live"><span class="eeg-live-dot"></span>LIVE VISUAL</span>
+        </div>
+        <div class="eeg-channels" id="eegChannels"></div>
+        <div class="eeg-time-axis"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+        <div class="eeg-panel-footer">
+          <span class="eeg-status">SIGNAL ANIMATION ACTIVE</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function eegWavePath(index, phase, secondary) {
+  const width = 600, height = 24, center = 12;
+  const amp = (secondary ? 3 : 5) + (index % 3) * 1.1;
+  const frequency = 0.055 + index * 0.004;
+  let d = '';
+  for (let x = 0; x <= width; x += 4) {
+    const t = x * frequency + phase + index * .83;
+    let y = center
+      + Math.sin(t) * amp * .55
+      + Math.sin(t * 2.35 + index) * amp * .24
+      + Math.sin(t * .42 + index * 2) * amp * .42;
+    const spikeCenter = ((phase * 21 + index * 61) % 190 + 190) % 190;
+    const dist = Math.abs((x % 190) - spikeCenter);
+    if (!secondary && dist < 8 && index > 1 && index < 5) y -= (8 - dist) * 0.9;
+    y = Math.max(2, Math.min(height - 2, y));
+    d += (x === 0 ? 'M' : 'L') + x.toFixed(1) + ' ' + y.toFixed(2) + ' ';
+  }
+  return d;
+}
+
+function startEegMonitor() {
+  const host = document.getElementById('eegChannels');
+  if (!host) return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rows = EEG_CHANNEL_NAMES.map((name, i) => {
+    const row = document.createElement('div');
+    row.className = 'eeg-channel';
+    const label = document.createElement('div');
+    label.className = 'eeg-channel-label';
+    label.textContent = name;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'eeg-trace');
+    svg.setAttribute('viewBox', '0 0 600 24');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    const back = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    back.setAttribute('class', 'secondary');
+    const front = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    svg.append(back, front);
+    row.append(label, svg);
+    host.appendChild(row);
+    return { back, front, index: i };
+  });
+
+  eegMonitorFrame = 0;
+  function draw() {
+    eegMonitorFrame += reducedMotion ? 0 : 0.035;
+    rows.forEach(({ back, front, index }) => {
+      back.setAttribute('d', eegWavePath(index, eegMonitorFrame * .8 - 1.5, true));
+      front.setAttribute('d', eegWavePath(index, eegMonitorFrame * (0.85 + index * .025), false));
+    });
+    if (!reducedMotion) eegMonitorRAF = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function stopEegMonitor() {
+  if (eegMonitorRAF) {
+    cancelAnimationFrame(eegMonitorRAF);
+    eegMonitorRAF = null;
+  }
+}
+
+function openProjectModal(caseEl) {
+  if (!projectModal) return;
+
+  const tagText   = caseEl.querySelector('.case-top .tag')?.textContent.trim() || '';
+  const idText    = caseEl.querySelector('.case-top span')?.textContent.trim() || '';
+  const title     = caseEl.querySelector('h3')?.textContent.trim() || '';
+  const fields    = Array.from(caseEl.querySelectorAll('.case-grid > div'));
+  const tags      = Array.from(caseEl.querySelectorAll('.tech-tag')).map(t => t.outerHTML);
+  const actions   = Array.from(caseEl.querySelectorAll('.case-actions a')).map(a => a.outerHTML);
+  const visualType = caseEl.dataset.visualType;
+
+  projectModalEyebrow.textContent = [idText, tagText].filter(Boolean).join(' · ');
+  projectModalTitle.textContent = title;
+
+  stopEegMonitor();
+  projectModalCard.classList.toggle('project-modal-card--wide', visualType === 'eeg-live');
+
+  if (visualType === 'eeg-live' && caseEl.dataset.visualSrc) {
+    projectModalVisual.textContent = '';
+    projectModalGraphic.innerHTML = eegGraphicHTML(caseEl.dataset.visualSrc, caseEl.dataset.visualLabel || 'EEG visualization');
+    startEegMonitor();
+  } else if (visualType === 'image' && caseEl.dataset.visualSrc) {
+    projectModalVisual.textContent = caseEl.dataset.visualLabel || 'Signal Visualization';
+    projectModalGraphic.innerHTML = `
+      <div class="project-modal-image-wrap">
+        <img src="${caseEl.dataset.visualSrc}" alt="${caseEl.dataset.visualLabel || 'Project visualization'}" loading="lazy">
+        <span class="project-modal-scan" aria-hidden="true"></span>
+      </div>
+    `;
+  } else if (visualType === 'network') {
+    projectModalVisual.textContent = caseEl.dataset.visualLabel || 'Signal Visualization';
+    projectModalGraphic.innerHTML = PROJECT_GRAPHIC_NETWORK;
+  } else {
+    projectModalVisual.textContent = caseEl.dataset.visualLabel || 'Signal Visualization';
+    projectModalGraphic.innerHTML = PROJECT_GRAPHIC_PULSE;
+  }
+
+  projectModalFields.innerHTML = fields.map(f => {
+    const label = f.querySelector('.field-label')?.textContent.trim() || '';
+    const text  = f.querySelector('p')?.textContent.trim() || '';
+    return `<div><span class="field-label mono">${label}</span><p>${text}</p></div>`;
+  }).join('');
+
+  projectModalTags.innerHTML = tags.join('');
+  projectModalActions.innerHTML = actions.join('');
+
+  projectModal.classList.add('active');
+  projectModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjectModal() {
+  if (!projectModal) return;
+  stopEegMonitor();
+  projectModal.classList.remove('active');
+  projectModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('#projects .case').forEach(caseEl => {
+  caseEl.addEventListener('click', (event) => {
+    if (event.target.closest('a')) return; // let paper/discuss links behave normally
+    openProjectModal(caseEl);
+  });
+});
+
+if (projectModal) {
+  projectModal.addEventListener('click', (event) => {
+    if (event.target === projectModal) closeProjectModal();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && projectModal.classList.contains('active')) {
+      closeProjectModal();
+    }
+  });
+}
 
 /* =========================================================
    KINETIC HERO NAME (added)
