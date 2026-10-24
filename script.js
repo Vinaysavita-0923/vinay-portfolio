@@ -1189,6 +1189,120 @@ function stopEegMonitor() {
   }
 }
 
+// Rich "live" ECG visual: beating heart art + an animated 12-lead
+// monitor. Every lead is drawn from one shared PQRST model running at
+// 72 BPM, so all leads and the heart's beat stay in sync.
+const ECG_LEADS = [
+  { name: 'I',   gain: 0.70 }, { name: 'II',  gain: 1.00 }, { name: 'III', gain: 0.50 },
+  { name: 'aVR', gain: -0.80 }, { name: 'aVL', gain: 0.40 }, { name: 'aVF', gain: 0.70 },
+  { name: 'V1',  gain: -0.60 }, { name: 'V2',  gain: 0.60 }, { name: 'V3',  gain: 0.80 },
+  { name: 'V4',  gain: 1.00 }, { name: 'V5',  gain: 0.90 }, { name: 'V6',  gain: 0.70 }
+];
+const ECG_BPM = 72;
+const ECG_PERIOD = 60 / ECG_BPM;   // seconds per beat
+const ECG_WINDOW = 5.5;            // seconds shown across the trace
+let ecgMonitorRAF = null;
+
+function ecgGraphicHTML(imgSrc, label) {
+  return `
+    <div class="eeg-visual ecg-visual">
+      <div class="eeg-brain-stage">
+        <div class="eeg-brain-halo"></div>
+        <div class="eeg-brain-art-wrap ecg-heart-wrap">
+          <img class="eeg-brain-art ecg-heart-art" id="ecgHeartArt" src="${imgSrc}" alt="${label}" loading="lazy">
+        </div>
+        <p class="eeg-brain-label"><span>●</span>CARDIAC ACTIVITY / VISUALIZATION</p>
+      </div>
+      <div class="eeg-panel">
+        <div class="eeg-panel-header">
+          <div>
+            <p class="eeg-eyebrow">Cardiac signal monitoring</p>
+            <h4 class="eeg-title">ECG Signal</h4>
+          </div>
+          <span class="eeg-live"><span class="eeg-live-dot"></span>LIVE VISUAL</span>
+        </div>
+        <div class="eeg-channels ecg-channels" id="ecgLeads"></div>
+        <div class="eeg-time-axis"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+        <div class="eeg-panel-footer">
+          <span class="eeg-status">SIGNAL ANIMATION ACTIVE</span>
+          <span class="ecg-rate"><span class="ecg-rate-heart" id="ecgRateHeart">♥</span>${ECG_BPM} BPM · 12-LEAD</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// One heartbeat (0 .. ECG_PERIOD s) as a sum of Gaussian bumps: P, Q, R, S, T.
+function ecgBeat(t) {
+  const g = (mu, sigma, amp) => amp * Math.exp(-((t - mu) ** 2) / (2 * sigma * sigma));
+  return g(0.10, 0.025, 0.12)   // P wave
+       + g(0.205, 0.008, -0.12) // Q
+       + g(0.225, 0.009, 1.00)  // R peak
+       + g(0.245, 0.010, -0.25) // S
+       + g(0.45, 0.045, 0.30);  // T wave
+}
+
+function ecgWavePath(gain, timeOffset) {
+  const width = 600, center = 14, scale = 11.5;
+  let d = '';
+  for (let x = 0; x <= width; x += 2) {
+    const sec = (x / width) * ECG_WINDOW + timeOffset;
+    const t = ((sec % ECG_PERIOD) + ECG_PERIOD) % ECG_PERIOD;
+    let y = center - ecgBeat(t) * gain * scale;
+    y = Math.max(1, Math.min(23, y));
+    d += (x === 0 ? 'M' : 'L') + x + ' ' + y.toFixed(2) + ' ';
+  }
+  return d;
+}
+
+function startEcgMonitor() {
+  const host = document.getElementById('ecgLeads');
+  if (!host) return;
+  const heart = document.getElementById('ecgHeartArt');
+  const rateHeart = document.getElementById('ecgRateHeart');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const rows = ECG_LEADS.map(lead => {
+    const row = document.createElement('div');
+    row.className = 'eeg-channel ecg-lead';
+    const label = document.createElement('div');
+    label.className = 'eeg-channel-label';
+    label.textContent = lead.name;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'eeg-trace ecg-trace');
+    svg.setAttribute('viewBox', '0 0 600 24');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    svg.appendChild(path);
+    row.append(label, svg);
+    host.appendChild(row);
+    return { path, gain: lead.gain };
+  });
+
+  const start = performance.now();
+  function draw(now) {
+    const elapsed = reducedMotion ? 0 : (now - start) / 1000;
+    rows.forEach(({ path, gain }) => path.setAttribute('d', ecgWavePath(gain, elapsed)));
+
+    // Heart contraction timed to the R peak of the newest beat on screen.
+    const beatT = (((elapsed + ECG_WINDOW) % ECG_PERIOD) + ECG_PERIOD) % ECG_PERIOD;
+    const dist = beatT - 0.225;
+    const pulse = dist >= 0 && dist < 0.35 ? Math.sin((dist / 0.35) * Math.PI) : 0;
+    if (heart) heart.style.transform = `scale(${(1 + pulse * 0.035).toFixed(4)})`;
+    if (rateHeart) rateHeart.style.transform = `scale(${(1 + pulse * 0.35).toFixed(3)})`;
+
+    if (!reducedMotion) ecgMonitorRAF = requestAnimationFrame(draw);
+  }
+  draw(start);
+}
+
+function stopEcgMonitor() {
+  if (ecgMonitorRAF) {
+    cancelAnimationFrame(ecgMonitorRAF);
+    ecgMonitorRAF = null;
+  }
+}
+
 function openProjectModal(caseEl) {
   if (!projectModal) return;
 
@@ -1204,9 +1318,14 @@ function openProjectModal(caseEl) {
   projectModalTitle.textContent = title;
 
   stopEegMonitor();
-  projectModalCard.classList.toggle('project-modal-card--wide', visualType === 'eeg-live');
+  stopEcgMonitor();
+  projectModalCard.classList.toggle('project-modal-card--wide', visualType === 'eeg-live' || visualType === 'ecg-live');
 
-  if (visualType === 'eeg-live' && caseEl.dataset.visualSrc) {
+  if (visualType === 'ecg-live' && caseEl.dataset.visualSrc) {
+    projectModalVisual.textContent = '';
+    projectModalGraphic.innerHTML = ecgGraphicHTML(caseEl.dataset.visualSrc, caseEl.dataset.visualLabel || 'ECG visualization');
+    startEcgMonitor();
+  } else if (visualType === 'eeg-live' && caseEl.dataset.visualSrc) {
     projectModalVisual.textContent = '';
     projectModalGraphic.innerHTML = eegGraphicHTML(caseEl.dataset.visualSrc, caseEl.dataset.visualLabel || 'EEG visualization');
     startEegMonitor();
@@ -1243,6 +1362,7 @@ function openProjectModal(caseEl) {
 function closeProjectModal() {
   if (!projectModal) return;
   stopEegMonitor();
+  stopEcgMonitor();
   projectModal.classList.remove('active');
   projectModal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
@@ -1817,4 +1937,69 @@ if (projectModal) {
     viewport.classList.add('is-in');
     ensureLoop();
   }
+})();
+
+
+/* =========================================================
+   RESEARCH & EXPERIENCE — 3D TIMELINE
+   1) Each role flips up into place when it scrolls into view.
+   2) The spine fills (with a glowing spark) as you scroll.
+   3) Cards tilt in 3D toward the cursor, with a moving glare.
+   ========================================================= */
+(function () {
+  const timeline = document.getElementById('xpTimeline');
+  if (!timeline) return;
+
+  const items = Array.from(timeline.querySelectorAll('.xp-item'));
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  // 1) Flip-up reveal
+  if (reduced || !('IntersectionObserver' in window)) {
+    items.forEach(i => i.classList.add('xp-in'));
+  } else {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('xp-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    items.forEach((item, i) => { item.style.transitionDelay = (i * 0.08) + 's'; io.observe(item); });
+  }
+
+  // 2) Scroll-linked spine fill
+  let ticking = false;
+  function updateSpine() {
+    ticking = false;
+    const r = timeline.getBoundingClientRect();
+    const focus = window.innerHeight * 0.6;
+    const pct = Math.max(0, Math.min(1, (focus - r.top) / r.height));
+    timeline.style.setProperty('--xp-fill', (pct * 100).toFixed(2) + '%');
+    timeline.style.setProperty('--xp-spark-on', pct > 0 && pct < 1 ? '1' : '0');
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateSpine); }
+  }, { passive: true });
+  window.addEventListener('resize', updateSpine);
+  updateSpine();
+
+  // 3) Cursor tilt (desktop only)
+  if (reduced || !canHover) return;
+  const MAX = 5; // degrees
+  timeline.querySelectorAll('.xp-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      card.classList.add('xp-tilting');
+      card.style.setProperty('--ry', ((x - 0.5) * 2 * MAX).toFixed(2) + 'deg');
+      card.style.setProperty('--rx', ((0.5 - y) * 2 * MAX).toFixed(2) + 'deg');
+      card.style.setProperty('--gx', (x * 100).toFixed(1) + '%');
+      card.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
+    });
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('xp-tilting');
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+    });
+  });
 })();

@@ -276,7 +276,7 @@
   <div class="case-list">
 
     <!-- PROJECT 01 -->
-    <article class="case" data-visual-label="ECG Signal Visualization">
+    <article class="case" data-visual-label="ECG Signal Visualization" data-visual-type="ecg-live" data-visual-src="ecg-heart.webp">
       <div class="case-top mono">
         <span>PROJECT_01</span>
         <span class="tag">Research paper</span>
@@ -331,7 +331,7 @@
 
 
     <!-- PROJECT 02 -->
-    <article class="case" data-visual-label="ECG Signal Visualization">
+    <article class="case" data-visual-label="ECG Signal Visualization" data-visual-type="ecg-live" data-visual-src="ecg-heart.webp">
       <div class="case-top mono">
         <span>PROJECT_02</span>
         <span class="tag">Research paper</span>
@@ -387,7 +387,7 @@
 
 
     <!-- PROJECT 03 -->
-    <article class="case" data-visual-label="EEG Signal Visualization" data-visual-type="eeg-live" data-visual-src="eeg-visualization.png">
+    <article class="case" data-visual-label="EEG Signal Visualization" data-visual-type="eeg-live" data-visual-src="eeg-brain.webp">
       <div class="case-top mono">
         <span>PROJECT_03</span>
         <span class="tag">Research paper</span>
@@ -473,10 +473,17 @@ exploring deep learning approaches for reliable seizure stage classification.
     </p>
   </div>
 
-  <div class="case-list">
+  <div class="case-list xp-timeline" id="xpTimeline">
+    <span class="xp-spine-fill" aria-hidden="true"></span><span class="xp-spark" aria-hidden="true"></span>
 
     <!-- NIT DELHI -->
-    <article class="case">
+    <div class="xp-item">
+      <div class="xp-node" aria-hidden="true">
+        <div class="xp-gyro"><span class="xp-ring xp-r1"></span><span class="xp-ring xp-r2"></span><span class="xp-ring xp-r3"></span></div>
+        <span class="xp-core"><svg viewBox="0 0 24 24"><path d="M2 12h4l2-5 3 10 3-8 2 3h6"/></svg></span>
+      </div>
+    <article class="case xp-card">
+      <span class="xp-glare" aria-hidden="true"></span>
 
       <div class="case-top mono">
         <span>JUL 2026</span>
@@ -519,9 +526,16 @@ exploring deep learning approaches for reliable seizure stage classification.
       </div>
 
     </article>
+    </div>
 
 <!-- SSR -->
-    <article class="case">
+    <div class="xp-item">
+      <div class="xp-node" aria-hidden="true">
+        <div class="xp-gyro"><span class="xp-ring xp-r1"></span><span class="xp-ring xp-r2"></span><span class="xp-ring xp-r3"></span></div>
+        <span class="xp-core"><svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V10l6-5 6 5v10M10 20v-5h4v5"/></svg></span>
+      </div>
+    <article class="case xp-card">
+      <span class="xp-glare" aria-hidden="true"></span>
 
       <div class="case-top mono">
         <span>AUGUST 2025</span>
@@ -564,8 +578,15 @@ exploring deep learning approaches for reliable seizure stage classification.
       </div>
 
     </article>
+    </div>
     <!-- IEEE -->
-    <article class="case">
+    <div class="xp-item">
+      <div class="xp-node" aria-hidden="true">
+        <div class="xp-gyro"><span class="xp-ring xp-r1"></span><span class="xp-ring xp-r2"></span><span class="xp-ring xp-r3"></span></div>
+        <span class="xp-core"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4zM14 6l3 3"/></svg></span>
+      </div>
+    <article class="case xp-card">
+      <span class="xp-glare" aria-hidden="true"></span>
 
       <div class="case-top mono">
         <span>2023 — PRESENT</span>
@@ -610,6 +631,7 @@ exploring deep learning approaches for reliable seizure stage classification.
       </div>
 
     </article>
+    </div>
 
   </div>
 </section>
@@ -1513,18 +1535,43 @@ exploring deep learning approaches for reliable seizure stage classification.
     <section id="resume" class="section wrap">
   <div class="section-head">
     <p class="eyebrow mono">DOWNLOAD</p>
-    <h2>Resume</h2>
+    <h2>Resume &amp; CV</h2>
     <p class="section-intro">
-      A concise overview of my education, research, projects, and experience.
+      View online or download. The resume is a short summary; the academic CV covers research, projects and achievements in full.
     </p>
   </div>
 
-  <a
-    class="btn btn-primary"
-    href="./Vinay_Savita_Resume.pdf"
-    download="Vinay_Savita_Resume.pdf">
-    Download Resume ↓
-  </a>
+  <div class="doc-grid">
+    <article class="doc-card">
+      <div class="doc-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+      </div>
+      <div class="doc-body">
+        <p class="doc-type mono">RESUME</p>
+        <h3>Resume</h3>
+        <p class="doc-desc">A concise overview of my education, research, projects, and experience.</p>
+        <div class="doc-actions">
+          <a class="btn btn-primary" href="VinaySavita_Resume1.pdf" target="_blank" rel="noopener">View Resume <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="VinaySavita_Resume1.pdf" download="Vinay_Savita_Resume.pdf">Download <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="doc-card">
+      <div class="doc-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2.5z"/><path d="M6 21h12M9 7h6M9 11h6"/></svg>
+      </div>
+      <div class="doc-body">
+        <p class="doc-type mono">ACADEMIC CV · 2026</p>
+        <h3>Curriculum Vitae</h3>
+        <p class="doc-desc">Full academic record: research internship at NIT Delhi, experience, education, certificates, awards and skills.</p>
+        <div class="doc-actions">
+          <a class="btn btn-primary" href="Vinay_Savita_CV_Academic2026.pdf" target="_blank" rel="noopener">View CV <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-ghost" href="Vinay_Savita_CV_Academic2026.pdf" download="Vinay_Savita_CV_Academic2026.pdf">Download <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </article>
+  </div>
 </section>
 
     <div class="signal-strip" aria-hidden="true"><span></span></div>

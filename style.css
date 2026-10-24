@@ -680,7 +680,7 @@ nav#primaryNav {
   width: min(78vw, 340px);
   background: var(--surface-2);
   border-left: 1px solid var(--border);
-  box-shadow: -24px 0 60px rgba(0,0,0,.45);
+  box-shadow: none; /* shadow only while open, so the closed drawer doesn't darken the page edge */
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
@@ -692,7 +692,7 @@ nav#primaryNav {
   overflow-y: auto;
   row-gap: 0;
 }
-nav#primaryNav.nav-open { transform: translateX(0); }
+nav#primaryNav.nav-open { transform: translateX(0); box-shadow: -24px 0 60px rgba(0,0,0,.45); }
 nav#primaryNav a { position: relative; width: 100%; padding: 13px 0 13px 14px; border-bottom: 1px solid var(--border); font-size: 16px; flex: none; white-space: normal; transition: color .2s ease; }
 nav#primaryNav a::before { content: ''; position: absolute; left: 0; top: 50%; translate: 0 -50%; width: 3px; height: 0; background: var(--blue); transition: height .2s ease; }
 nav#primaryNav a:hover, nav#primaryNav a.nav-link-active { color: var(--text); }
@@ -1215,6 +1215,24 @@ html[data-theme="light"] * { text-shadow: none; }
 @media (max-width: 720px) {
   .project-modal-card--wide { grid-template-columns: 1fr; }
 }
+
+/* Rich "live" ECG monitor visual: beating heart + animated 12-lead trace panel.
+   Reuses the EEG monitor shell; only the differences live here. */
+.ecg-heart-art { transform-origin: 50% 48%; will-change: transform; object-position: 50% 50%; }
+.ecg-channels .ecg-lead { min-height: 17px; }
+.ecg-trace { height: 15px; }
+.ecg-trace path { stroke: #ff7378; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.ecg-rate { display: inline-flex; align-items: center; gap: 6px; color: #ff9a9e; }
+.ecg-rate-heart { display: inline-block; color: #ff3943; text-shadow: 0 0 8px rgba(255, 57, 67, .8); }
+@media (prefers-reduced-motion: reduce) {
+  .ecg-heart-art, .ecg-rate-heart { transform: none !important; }
+}
+
+/* Background-removed (transparent) art: drop the box so the heart / brain
+   float freely over the halo instead of sitting in a dark square. */
+.eeg-brain-art-wrap { overflow: visible; border-radius: 0; aspect-ratio: 1.08; }
+.eeg-brain-art { object-fit: contain; object-position: 50% 50%; }
+.ecg-heart-wrap { max-width: 210px; }
 
 .project-modal-body { padding: 38px 36px; }
 .project-modal-card--wide .project-modal-body { padding: 24px 28px; }
@@ -1953,3 +1971,343 @@ body {
 @media (max-width: 560px) {
   #what-i-do { --wiw-zoom: 1.1; }
 }
+
+
+/* 29 — RESEARCH & EXPERIENCE: 3D TIMELINE */
+/* =========================================================
+   Each role sits on a glowing vertical spine. The spine fills
+   as you scroll; every role has a spinning 3D gyroscope node,
+   and each card flips up into place and tilts in 3D with the
+   cursor (layered depth via translateZ).
+   ========================================================= */
+#research .xp-timeline {
+  position: relative;
+  border-top: 0;
+  display: grid;
+  gap: 34px;
+  padding: 10px 0 10px;
+  perspective: 1400px;
+  --xp-fill: 0%;
+  --xp-col: 92px;
+}
+#research .xp-timeline::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--xp-col) / 2 - 1px);
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--border) 6%, var(--border) 94%, transparent);
+}
+#research .xp-spine-fill {
+  position: absolute;
+  left: calc(var(--xp-col) / 2 - 1px);
+  top: 0;
+  width: 2px;
+  height: var(--xp-fill);
+  background: linear-gradient(180deg, transparent, var(--blue));
+  box-shadow: 0 0 12px rgba(229, 9, 20, .7);
+  pointer-events: none;
+}
+#research .xp-spark {
+  position: absolute;
+  left: calc(var(--xp-col) / 2 - 5px);
+  top: calc(var(--xp-fill) - 5px);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--blue), 0 0 22px 6px rgba(229, 9, 20, .8);
+  pointer-events: none;
+  opacity: var(--xp-spark-on, 0);
+  transition: opacity .3s ease;
+}
+
+#research .xp-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--xp-col) minmax(0, 1fr);
+  align-items: start;
+  transform-style: preserve-3d;
+  opacity: 0;
+  transform: rotateX(24deg) translate3d(0, 60px, -120px);
+  transform-origin: 50% 0%;
+  transition: opacity .8s ease, transform 1s cubic-bezier(.2, .8, .2, 1);
+}
+#research .xp-item.xp-in { opacity: 1; transform: none; }
+
+/* Gyroscope node */
+#research .xp-node {
+  position: relative;
+  width: 64px; height: 64px;
+  margin: 26px auto 0;
+  perspective: 400px;
+  z-index: 2;
+}
+#research .xp-gyro {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  animation: xp-gyro 10s linear infinite;
+}
+#research .xp-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--blue);
+  box-shadow: 0 0 10px rgba(229, 9, 20, .45), inset 0 0 8px rgba(229, 9, 20, .25);
+}
+#research .xp-r1 { transform: rotateX(72deg); }
+#research .xp-r2 { transform: rotateY(72deg); border-color: rgba(255, 255, 255, .55); }
+#research .xp-r3 { transform: rotateX(72deg) rotateY(60deg); inset: 8px; border-style: dashed; }
+#research .xp-core {
+  position: absolute;
+  inset: 17px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff5a62, var(--blue) 55%, #5a0006);
+  box-shadow: 0 0 18px rgba(229, 9, 20, .8);
+  animation: xp-core 2.6s ease-in-out infinite;
+}
+#research .xp-core svg { width: 17px; height: 17px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes xp-gyro {
+  from { transform: rotateX(18deg) rotateY(0deg) rotateZ(0deg); }
+  to   { transform: rotateX(18deg) rotateY(360deg) rotateZ(360deg); }
+}
+@keyframes xp-core {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 14px rgba(229, 9, 20, .6); }
+  50% { transform: scale(1.1); box-shadow: 0 0 26px rgba(229, 9, 20, .95); }
+}
+#research .xp-item:hover .xp-gyro { animation-duration: 3.5s; }
+
+/* 3D tilt card */
+#research .xp-card {
+  position: relative;
+  padding: 30px 32px 26px;
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .012)),
+    var(--surface);
+  transform-style: preserve-3d;
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1), border-color .3s ease, box-shadow .3s ease;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+  will-change: transform;
+}
+#research .xp-card.xp-tilting { transition: transform .08s linear, border-color .3s ease, box-shadow .3s ease; }
+#research .xp-card:hover {
+  border-color: rgba(229, 9, 20, .6);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .45), 0 0 0 1px rgba(229, 9, 20, .25), 0 0 40px rgba(229, 9, 20, .18);
+}
+#research .xp-card > .case-top  { transform: translateZ(12px); }
+#research .xp-card > h3         { transform: translateZ(20px); margin-top: 14px; }
+#research .xp-card > .case-grid { transform: translateZ(8px); }
+#research .xp-card > .case-bottom { transform: translateZ(5px); }
+#research .xp-glare {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, .13), transparent 45%);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+#research .xp-card:hover .xp-glare { opacity: 1; }
+
+@media (max-width: 720px) {
+  #research .xp-timeline { --xp-col: 46px; gap: 24px; }
+  #research .xp-node { width: 38px; height: 38px; margin-top: 22px; }
+  #research .xp-core { inset: 9px; }
+  #research .xp-core svg { width: 12px; height: 12px; }
+  #research .xp-r3 { inset: 5px; }
+  #research .xp-card { padding: 22px 18px 20px; }
+  #research .xp-card > * { transform: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #research .xp-item { opacity: 1; transform: none; transition: none; }
+  #research .xp-gyro, #research .xp-core { animation: none; }
+  #research .xp-card { transform: none !important; }
+}
+
+/* Research cards are frosted glass (the rest of the site keeps cards
+   fully transparent; these need a surface so the 3D depth reads). */
+#research .xp-card {
+  background: linear-gradient(145deg, rgba(34, 30, 31, .78), rgba(14, 12, 13, .66)) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+#research .xp-card:hover { background: linear-gradient(145deg, rgba(40, 32, 33, .82), rgba(16, 12, 13, .7)) !important; }
+
+/* 30 — LIGHT THEME: SOFT PINK (#FFDFE4) WITH WHITE SHADES */
+html[data-theme="light"] {
+  --bg: #FFDFE4;
+  --surface: #FFFFFF;
+  --surface-2: #FFF0F2;
+  --border: #F2BCC5;
+  --text: #1A0B0D;
+  --muted: #5A3A3F;
+  --blue: #E50914;
+  --amber: #E50914;
+}
+html[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse 60% 40% at 12% 0%, rgba(255, 255, 255, .75), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 92% 30%, rgba(255, 255, 255, .55), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 20% 70%, rgba(255, 255, 255, .45), transparent 70%),
+    radial-gradient(ellipse 45% 35% at 85% 95%, rgba(255, 255, 255, .5), transparent 70%),
+    #FFDFE4;
+  background-attachment: fixed;
+}
+html[data-theme="light"] .site-header::before {
+  background: rgba(255, 223, 228, .85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(229, 9, 20, .12);
+}
+html[data-theme="light"] .case-grid p { color: #2E1A1D; }
+html[data-theme="light"] .btn-ghost { background: rgba(255, 255, 255, .6); }
+html[data-theme="light"] .btn-ghost:hover { background: rgba(255, 255, 255, .9); }
+html[data-theme="light"] .case:hover,
+html[data-theme="light"] .skill-chip:hover,
+html[data-theme="light"] .cert-card:hover,
+html[data-theme="light"] #editing .edit-card:hover,
+html[data-theme="light"] .connect-card:hover {
+  background: rgba(255, 255, 255, .45) !important;
+}
+/* Research cards: frosted white glass on the pink background */
+html[data-theme="light"] #research .xp-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .55)) !important;
+  border-color: rgba(255, 255, 255, .95);
+  box-shadow: 0 18px 50px rgba(180, 30, 50, .12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+html[data-theme="light"] #research .xp-card:hover {
+  border-color: rgba(229, 9, 20, .4);
+  box-shadow: 0 26px 70px rgba(180, 30, 50, .18), 0 0 30px rgba(229, 9, 20, .1);
+}
+html[data-theme="light"] #research .xp-glare {
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, .9), transparent 45%);
+}
+html[data-theme="light"] #research .xp-timeline::before { background: linear-gradient(180deg, transparent, #F2BCC5 6%, #F2BCC5 94%, transparent); }
+html[data-theme="light"] #research .xp-spine-fill { box-shadow: 0 0 10px rgba(229, 9, 20, .45); }
+html[data-theme="light"] #research .xp-spark { box-shadow: 0 0 0 3px var(--blue), 0 0 18px 4px rgba(229, 9, 20, .45); }
+html[data-theme="light"] #research .xp-ring { box-shadow: 0 0 8px rgba(229, 9, 20, .3); }
+html[data-theme="light"] #research .xp-r2 { border-color: rgba(26, 11, 13, .35); }
+
+/* 31 — LOADING SCREENS ALWAYS DARK */
+/* The Enter-Site screen, the % countdown and the name intro must
+   look the same whatever theme was saved last time. They use the
+   theme variables, so pin the dark values here. */
+.start-screen,
+.intro-overlay {
+  --bg: #141414;
+  --surface: #181818;
+  --surface-2: #232323;
+  --border: #2A2A2A;
+  --text: #FFFFFF;
+  --muted: #B3B3B3;
+  --blue: #E50914;
+  --amber: #E50914;
+  color: #FFFFFF;
+  background: #0A0A0A;
+}
+
+/* 32 — PROJECT POPUP IN LIGHT MODE */
+/* The left visual side (3D heart / brain + live signal monitor) keeps
+   its original dark look in both themes, so the glow animation reads
+   the same as before. The right text side gets dark, readable text. */
+html[data-theme="light"] .project-modal-visual {
+  --bg: #0E0B0C;
+  --surface: #181818;
+  --surface-2: #232323;
+  --border: #2A2A2A;
+  --text: #FFFFFF;
+  --muted: #B3B3B3;
+  --blue: #E50914;
+  background: radial-gradient(circle at 50% 30%, rgba(229, 9, 20, .16), transparent 60%), #0E0B0C;
+  border-right-color: rgba(229, 9, 20, .25);
+}
+html[data-theme="light"] .project-modal-fields p { color: #2A1A1D; }
+html[data-theme="light"] .project-modal-fields .field-label { color: #5A1F27; }
+html[data-theme="light"] .project-modal-title { color: #1A0B0D; }
+
+/* 33 — PROJECT CARDS: INNER SIDE SPACING */
+/* Cards had no left/right padding, so text touched the card edges once
+   the hover/light background made the card box visible. Equal inner
+   padding on both sides keeps every row (top line, title, 3 columns,
+   tags/actions) aligned to the same left and right edge. */
+#projects .case {
+  padding-inline: clamp(18px, 2.4vw, 36px);
+  border-radius: 14px;
+}
+#projects .case-list { display: grid; gap: 14px; border-top: 0; }
+#projects .case { border: 1px solid var(--border); }
+@media (max-width: 720px) {
+  #projects .case { padding-inline: 16px; }
+}
+
+/* 34 — RESUME & CV CARDS */
+#resume .doc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 34px;
+}
+#resume .doc-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 20px;
+  padding: 28px clamp(18px, 2.4vw, 32px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(34, 30, 31, .7), rgba(14, 12, 13, .55));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+#resume .doc-card:hover {
+  border-color: rgba(229, 9, 20, .6);
+  box-shadow: 0 0 0 1px rgba(229, 9, 20, .2), 0 20px 50px rgba(0, 0, 0, .35), 0 0 34px rgba(229, 9, 20, .15);
+  transform: translateY(-3px);
+}
+#resume .doc-icon {
+  width: 56px; height: 56px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(229, 9, 20, .45);
+  background: radial-gradient(circle at 35% 30%, rgba(229, 9, 20, .35), rgba(229, 9, 20, .08));
+  box-shadow: 0 0 18px rgba(229, 9, 20, .25);
+}
+#resume .doc-icon svg { width: 26px; height: 26px; fill: none; stroke: var(--text); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#resume .doc-type { margin: 0 0 6px; color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+#resume .doc-card h3 { margin: 0 0 8px; font-family: var(--display); font-size: clamp(26px, 3vw, 34px); font-weight: 400; line-height: 1.1; letter-spacing: .02em; }
+#resume .doc-desc { margin: 0 0 20px; color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+#resume .doc-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+#resume .doc-actions .btn { min-height: 42px; padding: 9px 18px; font-size: 14px; }
+
+html[data-theme="light"] #resume .doc-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .85), rgba(255, 255, 255, .55));
+  border-color: rgba(255, 255, 255, .95);
+  box-shadow: 0 16px 40px rgba(180, 30, 50, .10);
+}
+html[data-theme="light"] #resume .doc-card:hover {
+  border-color: rgba(229, 9, 20, .4);
+  box-shadow: 0 22px 54px rgba(180, 30, 50, .16), 0 0 28px rgba(229, 9, 20, .1);
+}
+html[data-theme="light"] #resume .doc-icon svg { stroke: #7A0710; }
+html[data-theme="light"] #resume .doc-actions .btn-ghost { background: rgba(255, 255, 255, .7); border-color: rgba(20, 10, 12, .2); }
+
+@media (max-width: 720px) {
+  #resume .doc-grid { grid-template-columns: 1fr; }
+  #resume .doc-card { grid-template-columns: 1fr; gap: 14px; }
+}
+
+/* 35 — WHAT I DO CARDS: DARK GLOWING BORDER (LIGHT MODE) */
+html[data-theme="light"] #what-i-do .wiw-track .cert-card {
+  border: 1px solid rgba(20, 8, 10, .7);
+  box-shadow: 0 0 0 1px rgba(20, 8, 10, .08), 0 0 16px rgba(0, 0, 0, .22), 0 0 4px rgba(0, 0, 0, .25);
+}
+html[data-theme="light"] #what-i-do .wiw-track .cert-card:hover {
+  border-color: #000;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .25), 0 0 24px rgba(0, 0, 0, .32), 0 0 6px rgba(0, 0, 0, .35);
+}
+html[data-theme="light"] #what-i-do .wiw-track .cert-card::after { background: rgba(20, 8, 10, .55); }
